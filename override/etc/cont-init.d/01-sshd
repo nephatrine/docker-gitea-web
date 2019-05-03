@@ -1,0 +1,93 @@
+#!/usr/bin/with-contenv bash
+
+B_MODULI=${B_MODULI:-4096}
+B_DSA=${B_DSA:-1024}
+B_RSA=${B_RSA:-4096}
+B_ECDSA=${B_ECDSA:-384}
+B_ED25519=${B_ED25519:-256}
+
+if [[ ! -e /mnt/config/etc/ssh/sshd_config ]]; then
+  if [[ ! -d /mnt/config/etc/ssh ]]; then
+    s6-setuidgid guardian mkdir -p /mnt/config/etc/ssh
+  fi
+  
+  s6-setuidgid guardian cp /etc/ssh/sshd_config /mnt/config/etc/ssh/sshd_config
+fi
+
+if [[ -e /mnt/config/etc/ssh/moduli ]]; then
+  cp /mnt/config/etc/ssh/moduli /etc/ssh/moduli
+  chmod 644 /etc/ssh/moduli
+elif egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q 'diffie-hellman-group-exchange'; then
+  if [[ "x${GENERATE_MODULI}" == "xtrue" ]]; then
+    ssh-keygen -G /etc/ssh/moduli.candidates -b ${B_MODULI} && ssh-keygen -T /etc/ssh/moduli.safe -f /etc/ssh/moduli.candidates && mv /etc/ssh/moduli.safe /etc/ssh/moduli
+    s6-setuidgid guardian cp /etc/ssh/moduli /mnt/config/etc/ssh/moduli
+    rm -f /etc/ssh/moduli.candidates
+  fi
+elif [[ -e /etc/ssh/moduli ]]; then
+  rm -f /etc/ssh/moduli
+fi
+
+if [[ -e /mnt/config/etc/ssh/ssh_host_key && -e /mnt/config/etc/ssh/ssh_host_key.pub ]]; then
+  cp /mnt/config/etc/ssh/ssh_host_key /etc/ssh/ssh_host_key
+  chmod 600 /etc/ssh/ssh_host_key
+  cp /mnt/config/etc/ssh/ssh_host_key.pub /etc/ssh/ssh_host_key.pub
+  chmod 644 /etc/ssh/ssh_host_key.pub
+elif egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_key'; then
+  ssh-keygen -t rsa1 -f /etc/ssh/ssh_host_key -N ''
+  cp /etc/ssh/ssh_host_key* /mnt/config/etc/ssh/
+  chown guardian:users /mnt/config/etc/ssh/ssh_host_key*
+elif [[ -e /etc/ssh/ssh_host_key || -e /etc/ssh/ssh_host_key.pub ]]; then
+  rm -f /etc/ssh/ssh_host_key*
+fi
+
+if [[ -e /mnt/config/etc/ssh/ssh_host_dsa_key && -e /mnt/config/etc/ssh/ssh_host_dsa_key.pub ]]; then
+  cp /mnt/config/etc/ssh/ssh_host_dsa_key /etc/ssh/ssh_host_dsa_key
+  chmod 600 /etc/ssh/ssh_host_dsa_key
+  cp /mnt/config/etc/ssh/ssh_host_dsa_key.pub /etc/ssh/ssh_host_dsa_key.pub
+  chmod 644 /etc/ssh/ssh_host_dsa_key.pub
+elif egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_dsa_key'; then
+  ssh-keygen -t dsa -b ${B_DSA} -f /etc/ssh/ssh_host_dsa_key -N ''
+  cp /etc/ssh/ssh_host_dsa_key* /mnt/config/etc/ssh/
+  chown guardian:users /mnt/config/etc/ssh/ssh_host_dsa_key*
+elif [[ -e /etc/ssh/ssh_host_dsa_key || -e /etc/ssh/ssh_host_dsa_key.pub ]]; then
+  rm -f /etc/ssh/ssh_host_dsa_key*
+fi
+
+if [[ -e /mnt/config/etc/ssh/ssh_host_rsa_key && -e /mnt/config/etc/ssh/ssh_host_rsa_key.pub ]]; then
+  cp /mnt/config/etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_rsa_key
+  chmod 600 /etc/ssh/ssh_host_rsa_key
+  cp /mnt/config/etc/ssh/ssh_host_rsa_key.pub /etc/ssh/ssh_host_rsa_key.pub
+  chmod 644 /etc/ssh/ssh_host_rsa_key.pub
+elif egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_rsa_key'; then
+  ssh-keygen -t rsa -b ${B_RSA} -f /etc/ssh/ssh_host_rsa_key -N ''
+  cp /etc/ssh/ssh_host_rsa_key* /mnt/config/etc/ssh/
+  chown guardian:users /mnt/config/etc/ssh/ssh_host_rsa_key*
+elif [[ -e /etc/ssh/ssh_host_rsa_key || -e /etc/ssh/ssh_host_rsa_key.pub ]]; then
+  rm -f /etc/ssh/ssh_host_rsa_key*
+fi
+
+if [[ -e /mnt/config/etc/ssh/ssh_host_ecdsa_key && -e /mnt/config/etc/ssh/ssh_host_ecdsa_key.pub ]]; then
+  cp /mnt/config/etc/ssh/ssh_host_ecdsa_key /etc/ssh/ssh_host_ecdsa_key
+  chmod 600 /etc/ssh/ssh_host_ecdsa_key
+  cp /mnt/config/etc/ssh/ssh_host_ecdsa_key.pub /etc/ssh/ssh_host_ecdsa_key.pub
+  chmod 644 /etc/ssh/ssh_host_ecdsa_key.pub
+elif egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_ecdsa_key'; then
+  ssh-keygen -t ecdsa -b ${B_ECDSA} -f /etc/ssh/ssh_host_ecdsa_key -N ''
+  cp /etc/ssh/ssh_host_ecdsa_key* /mnt/config/etc/ssh/
+  chown guardian:users /mnt/config/etc/ssh/ssh_host_ecdsa_key*
+elif [[ -e /etc/ssh/ssh_host_ecdsa_key || -e /etc/ssh/ssh_host_ecdsa_key.pub ]]; then
+  rm -f /etc/ssh/ssh_host_ecdsa_key*
+fi
+
+if [[ -e /mnt/config/etc/ssh/ssh_host_ed25519_key && -e /mnt/config/etc/ssh/ssh_host_ed25519_key.pub ]]; then
+  cp /mnt/config/etc/ssh/ssh_host_ed25519_key /etc/ssh/ssh_host_ed25519_key
+  chmod 600 /etc/ssh/ssh_host_ed25519_key
+  cp /mnt/config/etc/ssh/ssh_host_ed25519_key.pub /etc/ssh/ssh_host_ed25519_key.pub
+  chmod 644 /etc/ssh/ssh_host_ed25519_key.pub
+elif egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_ed25519_key'; then
+  ssh-keygen -t ed25519 -b ${B_ED25519} -f /etc/ssh/ssh_host_ed25519_key -N ''
+  cp /etc/ssh/ssh_host_ed25519_key* /mnt/config/etc/ssh/
+  chown guardian:users /mnt/config/etc/ssh/ssh_host_ed25519_key*
+elif [[ -e /etc/ssh/ssh_host_ed25519_key || -e /etc/ssh/ssh_host_ed25519_key.pub ]]; then
+  rm -f /etc/ssh/ssh_host_ed25519_key*
+fi

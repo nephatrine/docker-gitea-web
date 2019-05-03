@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ -d /mnt/config/var ]; then
+  cd /mnt/config/var
+  GITEA_CUSTOM=/mnt/config/var/www/gitea HOME=/mnt/config/home USER=guardian exec s6-setuidgid guardian /usr/bin/gitea dump --config /mnt/config/etc/gitea/app.ini --tempdir=/tmp/gitea/backup;
+  find /mnt/config/var/ -maxdepth 1 -type f -name 'gitea-dump-*.zip' -print0 | xargs -r0 ls -t | tail -n +5 | tr '\n' '\0' | xargs -r0 rm
+fi

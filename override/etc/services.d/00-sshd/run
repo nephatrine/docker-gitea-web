@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv sh
+
+s6-setuidgid guardian touch /mnt/config/log/sshd.log
+
+if ! pgrep sshd >/dev/null; then
+  GENERATE_MODULI=true /etc/cont-init.d/01-sshd
+  exec /usr/sbin/sshd -E /mnt/config/log/sshd.log -f /mnt/config/etc/ssh/sshd_config;
+  sleep 5
+fi
+
+while pgrep sshd >/dev/null; do
+  sleep 30
+done
