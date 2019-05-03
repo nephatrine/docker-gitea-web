@@ -1,0 +1,8 @@
+/mnt/config/log/gitea/gitea.log, /mnt/config/log/gitea/http.log, /mnt/config/log/gitea/serv.log, /mnt/config/log/gitea/xorm.log {
+	missingok
+	notifempty
+}
+/mnt/config/log/gitea/hooks/post-receive.log, /mnt/config/log/gitea/hooks/pre-receive.log, /mnt/config/log/gitea/hooks/update.log {
+	missingok
+	notifempty
+}

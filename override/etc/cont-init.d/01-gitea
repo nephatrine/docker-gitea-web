@@ -1,0 +1,17 @@
+#!/usr/bin/with-contenv bash
+
+if [[ ! -e /mnt/config/etc/gitea/app.ini ]]; then
+  if [[ ! -d /mnt/config/etc/gitea ]]; then
+    s6-setuidgid guardian mkdir -p /mnt/config/etc/gitea
+  fi
+
+  s6-setuidgid guardian cp -n /etc/gitea/* /mnt/config/etc/gitea/
+fi
+
+if ! diff /etc/gitea/app.ini.sample /mnt/config/etc/gitea/app.ini.sample >/dev/null 2>&1; then
+  s6-setuidgid guardian cp /etc/gitea/app.ini.sample /mnt/config/etc/gitea/app.ini.sample
+fi
+
+if [[ -d /mnt/config/var/git ]]; then
+  find /mnt/config/var/git/ -name hooks -type d | xargs -n1 -I[] find [] -type f -exec chmod 0755 {} \;
+fi

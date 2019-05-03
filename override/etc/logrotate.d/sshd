@@ -1,0 +1,4 @@
+/mnt/config/log/sshd.log {
+	missingok
+	notifempty
+}
