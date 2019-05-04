@@ -1,7 +1,5 @@
-FROM nephatrine/alpine-s6:latest
+FROM nephatrine/alpine-s6:testing
 LABEL maintainer="Daniel Wolf <nephatrine@gmail.com>"
-
-ARG GITEA_VERSION=release/v1.8
 
 ENV GOPATH="/usr"
 
@@ -23,8 +21,6 @@ RUN echo "====== INSTALL PACKAGES ======" \
  && cd /usr/src \
  && go get -u code.gitea.io/gitea \
  && cd code.gitea.io/gitea \
- && git fetch && git fetch --tags \
- && git checkout "$GITEA_VERSION" \
  && TAGS="bindata sqlite sqlite_unlock_notify" make generate build \
  && mv ./gitea /usr/bin/ \
  && cp ./custom/conf/app.ini.sample /etc/gitea/app.ini.sample \
