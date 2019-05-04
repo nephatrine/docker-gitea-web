@@ -1,5 +1,3 @@
-Port 2020
-
 PermitRootLogin no
 
 AuthorizedKeysFile .ssh/authorized_keys
