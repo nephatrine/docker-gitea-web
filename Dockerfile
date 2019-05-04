@@ -24,10 +24,10 @@ RUN echo "====== INSTALL PACKAGES ======" \
  && go get -u code.gitea.io/gitea \
  && cd code.gitea.io/gitea \
  && git fetch && git fetch --tags \
- && cp ./custom/conf/app.ini.sample /etc/gitea/app.ini.sample \
  && git checkout "$GITEA_VERSION" \
  && TAGS="bindata sqlite sqlite_unlock_notify" make generate build \
  && mv ./gitea /usr/bin/ \
+ && cp ./custom/conf/app.ini.sample /etc/gitea/app.ini.sample \
  \
  && echo "====== CLEANUP ======" \
  && cd /usr/src \
