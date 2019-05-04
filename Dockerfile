@@ -1,7 +1,7 @@
 FROM nephatrine/alpine-s6:latest
 LABEL maintainer="Daniel Wolf <nephatrine@gmail.com>"
 
-ARG GITEA_VERSION=v1.8.0
+ARG GITEA_VERSION=release/v1.8
 
 ENV GOPATH="/usr"
 
