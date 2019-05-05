@@ -1,5 +1,9 @@
 #!/usr/bin/with-contenv sh
 
+if [ ! -d /tmp/gitea/backup ]; then
+  s6-setuidgid guardian mkdir -p /tmp/gitea/backup
+fi
+
 if [ -d /mnt/config/var ]; then
   cd /mnt/config/var
   GITEA_CUSTOM=/mnt/config/var/www/gitea HOME=/mnt/config/home USER=guardian exec s6-setuidgid guardian /usr/bin/gitea dump --config /mnt/config/etc/gitea/app.ini --tempdir=/tmp/gitea/backup;
