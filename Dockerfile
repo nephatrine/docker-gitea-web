@@ -14,7 +14,7 @@ RUN echo "====== INSTALL PACKAGES ======" \
    go \
  \
  && echo "====== CONFIGURE SYSTEM ======" \
- && mkdir -p /mnt/data /etc/gitea \
+ && mkdir -p /etc/gitea \
  && usermod -p '*' -s /bin/bash guardian \
  \
  && echo "====== COMPILE GITEA ======" \
