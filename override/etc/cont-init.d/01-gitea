@@ -12,6 +12,6 @@ if ! diff /etc/gitea/app.ini.sample /mnt/config/etc/gitea/app.ini.sample >/dev/n
   s6-setuidgid guardian cp /etc/gitea/app.ini.sample /mnt/config/etc/gitea/app.ini.sample
 fi
 
-if [[ -d /mnt/config/var/git ]]; then
-  find /mnt/config/var/git/ -name hooks -type d | xargs -n1 -I[] find [] -type f -exec chmod 0755 {} \;
+if [[ -d /mnt/config/data/git ]]; then
+  find /mnt/config/data/git/ -name hooks -type d | xargs -n1 -I[] find [] -type f -exec chmod 0755 {} \;
 fi

@@ -6,6 +6,6 @@ fi
 
 if [ -d /mnt/config/home ]; then
   cd /mnt/config/home
-  GITEA_CUSTOM=/mnt/config/etc/gitea HOME=/mnt/config/home USER=guardian exec s6-setuidgid guardian /usr/bin/gitea dump --config /mnt/config/etc/gitea/app.ini --tempdir=/tmp/gitea/backup --skip-repository;
-  find /mnt/config/home/ -maxdepth 1 -type f -name 'gitea-dump-*.zip' -print0 | xargs -r0 ls -t | tail -n +5 | tr '\n' '\0' | xargs -r0 rm
+  GITEA_CUSTOM=/mnt/config/etc/gitea HOME=/mnt/config/home USER=guardian exec s6-setuidgid guardian /usr/bin/gitea dump --config /mnt/config/etc/gitea/app.ini --tempdir=/tmp/gitea/backup;
+  find /mnt/config/home/ -maxdepth 1 -type f -name 'gitea-dump-*.zip' -print0 | xargs -r0 ls -t | tail -n +3 | tr '\n' '\0' | xargs -r0 rm
 fi
