@@ -53,10 +53,9 @@ image and are not lost on image updates.
 
 - ``/mnt/config``: Configuration & Logs. Do not share with multiple containers.
 
-You can perform some basic configuration and troubleshooting of the container
-using the files and directories listed below.
+You can perform some basic configuration of the container using the files and
+directories listed below.
 
-- ``/mnt/config/bin/``: User Scripts.
 - ``/mnt/config/etc/crontabs/<user>``: User Crontabs. [*]
 - ``/mnt/config/etc/gitea/app.ini``: Gitea Configuration. [*]
 - ``/mnt/config/etc/logrotate.conf``: Logrotate Global Configuration.
@@ -64,8 +63,7 @@ using the files and directories listed below.
 - ``/mnt/config/etc/ssh/moduli``: SSH Diffie-Hellman Moduli. [*]
 - ``/mnt/config/etc/ssh/ssh_host_<algo>_key``: SSH Server Keys. [*]
 - ``/mnt/config/etc/ssh/sshd_config``: SSH Server Configuration. [*]
-- ``/mnt/config/var/www/gitea/``: Gitea Custom Directory.
-- ``/mnt/config/log/``: Application Logs.
+- ``/mnt/config/www/gitea/``: Gitea Customization Directory.
 
 **[*] Changes to some configuration files may require service restart to take
 immediate effect.**
