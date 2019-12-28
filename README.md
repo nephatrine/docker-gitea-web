@@ -26,8 +26,11 @@ time in a number of ways:
 
 ## Docker Tags
 
-- **nephatrine/gitea-web:latest**: Gitea v1.8 (*release/v1.8*)
 - **nephatrine/gitea-web:testing**: Gitea Development (*master*)
+- **nephatrine/gitea-web:latest**: Gitea v1.10 (*release/v1.10*)
+- **nephatrine/gitea-web:1.9**: Gitea v1.9 (*release/v1.9*)
+- **nephatrine/gitea-web:1.8**: Gitea v1.8 (*release/v1.8*)
+- **nephatrine/gitea-web:1.7**: Gitea v1.7 (*release/v1.7*)
 
 ## Configuration Variables
 
