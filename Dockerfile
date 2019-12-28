@@ -12,6 +12,8 @@ RUN echo "====== INSTALL PACKAGES ======" \
  && apk add --virtual .build-gitea \
    build-base \
    go \
+   npm \
+   nodejs \
  \
  && echo "====== CONFIGURE SYSTEM ======" \
  && mkdir -p /etc/gitea \
