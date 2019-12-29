@@ -1,11 +1,24 @@
 #!/usr/bin/with-contenv bash
 
+SSLPRIMARY=`echo $SSLDOMAINS | tr ',' ' ' | awk '${print $1}'`
+DOMAINNAME=${SSLPRIMARY:-"example.net"}
+
 if [[ ! -e /mnt/config/etc/gitea/app.ini ]]; then
   if [[ ! -d /mnt/config/etc/gitea ]]; then
     s6-setuidgid guardian mkdir -p /mnt/config/etc/gitea
   fi
 
   s6-setuidgid guardian cp -n /etc/gitea/* /mnt/config/etc/gitea/
+
+  sed -i -e 's/example.net/${DOMAINNAME}/g' /mnt/config/gitea/app.ini
+
+  if [[ ! -z "${SSLPRIMARY}" ]]; then
+    sed -i -e 's/;NOSSL:/;/g' /mnt/config/gitea/app.ini
+    sed -i -e 's/;SSL://g' /mnt/config/gitea/app.ini
+  else
+    sed -i -e 's/;NOSSL://g' /mnt/config/gitea/app.ini
+    sed -i -e 's/;SSL:/;/g' /mnt/config/gitea/app.ini
+  fi
 fi
 
 if ! diff /etc/gitea/app.ini.sample /mnt/config/etc/gitea/app.ini.sample >/dev/null 2>&1; then

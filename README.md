@@ -8,7 +8,12 @@ This docker image contains the Gitea application - a lightweight git repository
 service - using a sqlite3 database.
 
 - [Gitea](https://gitea.io/en-us/)
-- [SQLite](https://www.sqlite.org/index.html)
+- [OpenSSH](https://openssh.com/)
+- [SQLite](https://www.sqlite.org/)
+
+This container image includes [Certbot](https://certbot.eff.org/) and can be
+configured to obtain SSL certificates, but it is suggested to instead put it
+behind an [NGINX](https://nginx.com/) reverse proxy and use SSL there instead.
 
 You can spin up a quick temporary test container like this:
 
@@ -45,6 +50,8 @@ initialization scripts to perform initial setup.
 - ``B_ED25519``: Default ed25519 Key Size (*256*)
 - ``PUID``: Mount Owner UID (*1000*)
 - ``PGID``: Mount Owner GID (*100*)
+- ``SSLDOMAINS``: Comma-Delimited Certbot Domains (*""*)
+- ``SSLEMAIL``: Certbot Email (*""*)
 - ``TZ``: System Timezone (*America/New_York*)
 
 ## Persistent Mounts
@@ -81,4 +88,5 @@ the container. You can map these to host ports using the ``-p HOST:CONTAINER``
 or ``-p HOST:CONTAINER/PROTOCOL`` syntax.
 
 - ``22/tcp``: SSH Server. This is optional to allow users interact with the git repos using ssh.
+- ``80/tcp``: Gitea Server. This is the optional HTTP redirect port if using SSL.
 - ``3000/tcp``: Gitea Server. This is the Gitea web server.
