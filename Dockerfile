@@ -7,6 +7,7 @@ ENV GOPATH="/usr"
 
 RUN echo "====== INSTALL PACKAGES ======" \
  && apk add \
+   certbot \
    git git-lfs \
    openssh-keygen \
    openssh-server \
