@@ -13,10 +13,8 @@ if [[ ! -e /mnt/config/etc/gitea/app.ini ]]; then
   sed -i -e 's/example.net/${DOMAINNAME}/g' /mnt/config/gitea/app.ini
 
   if [[ ! -z "${SSLPRIMARY}" ]]; then
-    sed -i -e 's/;NOSSL:/;/g' /mnt/config/gitea/app.ini
     sed -i -e 's/;SSL://g' /mnt/config/gitea/app.ini
   else
-    sed -i -e 's/;NOSSL://g' /mnt/config/gitea/app.ini
     sed -i -e 's/;SSL:/;/g' /mnt/config/gitea/app.ini
   fi
 fi
