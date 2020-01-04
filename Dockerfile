@@ -3,7 +3,7 @@ LABEL maintainer="Daniel Wolf <nephatrine@gmail.com>"
 
 ARG GITEA_VERSION=release/v1.10
 
-ENV GOPATH="/usr"
+ARG GOPATH="/usr"
 
 RUN echo "====== INSTALL PACKAGES ======" \
  && apk add \
@@ -22,8 +22,7 @@ RUN echo "====== INSTALL PACKAGES ======" \
  \
  && echo "====== COMPILE GITEA ======" \
  && cd /usr/src \
- && go get -u code.gitea.io/gitea \
- && cd code.gitea.io/gitea \
+ && go get -u code.gitea.io/gitea && cd code.gitea.io/gitea \
  && git fetch && git fetch --tags \
  && git checkout "$GITEA_VERSION" \
  && TAGS="bindata sqlite sqlite_unlock_notify" make generate build \
@@ -31,9 +30,8 @@ RUN echo "====== INSTALL PACKAGES ======" \
  && cp ./custom/conf/app.ini.sample /etc/gitea/app.ini.sample \
  \
  && echo "====== CLEANUP ======" \
- && cd /usr/src \
  && apk del --purge .build-gitea \
- && rm -rf /tmp/* /usr/pkg/* /usr/src/* /var/cache/apk/*
+ && cd /usr/src && rm -rf /tmp/* /usr/pkg/* /usr/src/* /var/cache/apk/*
 
 EXPOSE 22/tcp 3000/tcp
 COPY override /
