@@ -2,23 +2,26 @@
 [Docker](https://hub.docker.com/r/nephatrine/gitea-web/) |
 [unRAID](https://code.nephatrine.net/nephatrine/unraid-containers)
 
+[![Build Status](https://ci.nephatrine.net/api/badges/nephatrine/docker-gitea-web/status.svg)](https://ci.nephatrine.net/nephatrine/docker-gitea-web)
+
 # Gitea Git Repository
 
-This docker image contains the Gitea application - a lightweight git repository
-service - using a sqlite3 database.
+This docker image contains a Gitea server to self-host your own git
+repositories.
 
 - [Gitea](https://gitea.io/en-us/)
 - [OpenSSH](https://openssh.com/)
 - [SQLite](https://www.sqlite.org/)
 
-This container image includes [Certbot](https://certbot.eff.org/) and can be
-configured to obtain SSL certificates, but it is suggested to instead put it
-behind an [NGINX](https://nginx.com/) reverse proxy and use SSL there instead.
+This container includes [Certbot](https://certbot.eff.org/) and can be
+configured to obtain and serve SSL certificates, but a better option would be
+using an [NGINX](https://nginx.com/) reverse proxy container and only utilizing
+SSL at that point.
 
 You can spin up a quick temporary test container like this:
 
 ~~~
-docker run -rm -ti nephatrine/gitea-web:latest /bin/bash
+docker run --rm -p 3000:3000 -v /var/run/docker.sock:/run/docker.sock -it nephatrine/gitea-web:latest /bin/bash
 ~~~
 
 When starting the container for the first time, sshd startup might take a
@@ -40,8 +43,9 @@ time in a number of ways:
 ## Configuration Variables
 
 You can set these parameters using the syntax ``-e "VARNAME=VALUE"`` on your
-``docker run`` command. These are typically used during the container
-initialization scripts to perform initial setup.
+``docker run`` command. Some of these may only be used during initial
+configuration and further changes may need to be made in the generated
+configuration files.
 
 - ``B_MODULI``: Default SSH Moduli Size (*4096*)
 - ``B_DSA``: Default DSA Key Size (*1024*)
@@ -57,11 +61,14 @@ initialization scripts to perform initial setup.
 ## Persistent Mounts
 
 You can provide a persistent mountpoint using the ``-v /host/path:/container/path``
-syntax. These mountpoints are intended important configuration files, logs,
-and application state (e.g. databases) can be retained outside the container
-image and are not lost on image updates.
+syntax. These mountpoints are intended to house important configuration files,
+logs, and application state (e.g. databases) so they are not lost on image
+update.
 
-- ``/mnt/config``: Configuration & Logs. Do not share with multiple containers.
+- ``/mnt/config``: Persistent Data.
+
+Do not share ``/mnt/config`` volumes between multiple containers as they may
+interfere with the operation of one another.
 
 You can perform some basic configuration of the container using the files and
 directories listed below.
@@ -78,15 +85,11 @@ directories listed below.
 **[*] Changes to some configuration files may require service restart to take
 immediate effect.**
 
-Some configuration files are required for system operation and will be
-recreated with their default settings if deleted.
-
 ## Network Services
 
 This container runs network services that are intended to be exposed outside
 the container. You can map these to host ports using the ``-p HOST:CONTAINER``
 or ``-p HOST:CONTAINER/PROTOCOL`` syntax.
 
-- ``22/tcp``: SSH Server. This is optional to allow users interact with the git repos using ssh.
-- ``80/tcp``: Gitea Server. This is the optional HTTP redirect port if using SSL.
-- ``3000/tcp``: Gitea Server. This is the Gitea web server.
+- ``22/tcp``: SSH Server. This is the optional SSH server.
+- ``3000/tcp``: Gitea Server. This is the web server.
