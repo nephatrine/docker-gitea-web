@@ -10,7 +10,7 @@ platform:
 steps:
 - name: build
   commands:
-  - docker build --pull --squash -t pdr.nephatrine.net/nephatrine/gitea-web:latest .
+  - docker build --pull -t pdr.nephatrine.net/nephatrine/gitea-web:latest .
   - HOME=/mnt/config/home docker push pdr.nephatrine.net/nephatrine/gitea-web:latest
   - docker tag pdr.nephatrine.net/nephatrine/gitea-web:latest nephatrine/gitea-web:latest
   - HOME=/mnt/config/home docker push nephatrine/gitea-web:latest
