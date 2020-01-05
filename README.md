@@ -9,14 +9,12 @@
 This docker image contains a Gitea server to self-host your own git
 repositories.
 
+**YOU WILL NEED TO USE A SEPARATE REVERSE PROXY SERVER TO SECURE THIS SERVICE.
+FOR INSTANCE, an [NGINX](https://nginx.com/) reverse proxy container.**
+
 - [Gitea](https://gitea.io/en-us/)
 - [OpenSSH](https://openssh.com/)
 - [SQLite](https://www.sqlite.org/)
-
-This container includes [Certbot](https://certbot.eff.org/) and can be
-configured to obtain and serve SSL certificates, but a better option would be
-using an [NGINX](https://nginx.com/) reverse proxy container and only utilizing
-SSL at that point.
 
 You can spin up a quick temporary test container like this:
 
@@ -54,8 +52,6 @@ configuration files.
 - ``B_ED25519``: Default ed25519 Key Size (*256*)
 - ``PUID``: Mount Owner UID (*1000*)
 - ``PGID``: Mount Owner GID (*100*)
-- ``SSLDOMAINS``: Comma-Delimited Certbot Domains (*""*)
-- ``SSLEMAIL``: Certbot Email (*""*)
 - ``TZ``: System Timezone (*America/New_York*)
 
 ## Persistent Mounts
