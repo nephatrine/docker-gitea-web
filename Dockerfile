@@ -5,7 +5,8 @@ RUN echo "====== INSTALL PACKAGES ======" \
  && apk add \
    git git-lfs \
    openssh-server openssh-keygen \
-   sqlite
+   sqlite \
+ && rm -rf /var/cache/apk/*
 
 ARG GOPATH="/usr"
 
