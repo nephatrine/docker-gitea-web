@@ -10,7 +10,7 @@ This docker image contains a Gitea server to self-host your own git
 repositories.
 
 **YOU WILL NEED TO USE A SEPARATE REVERSE PROXY SERVER TO SECURE THIS SERVICE.
-FOR INSTANCE, an [NGINX](https://nginx.com/) reverse proxy container.**
+FOR INSTANCE, AN [NGINX](https://nginx.com/) REVERSE PROXY CONTAINER.**
 
 - [Gitea](https://gitea.io/en-us/)
 - [OpenSSH](https://openssh.com/)
