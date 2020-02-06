@@ -2,7 +2,7 @@
 [Docker](https://hub.docker.com/r/nephatrine/gitea-web/) |
 [unRAID](https://code.nephatrine.net/nephatrine/unraid-containers)
 
-[![Build Status](https://ci.nephatrine.net/api/badges/nephatrine/docker-gitea-web/status.svg)](https://ci.nephatrine.net/nephatrine/docker-gitea-web)
+[![Build Status](https://ci.nephatrine.net/api/badges/nephatrine/docker-gitea-web/status.svg?ref=refs/heads/master)](https://ci.nephatrine.net/nephatrine/docker-gitea-web)
 
 # Gitea Git Repository
 
