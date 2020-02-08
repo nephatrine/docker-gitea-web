@@ -1,4 +1,4 @@
-FROM nephatrine/alpine-s6:latest
+FROM nephatrine/alpine-s6:3.11
 LABEL maintainer="Daniel Wolf <nephatrine@gmail.com>"
 
 RUN echo "====== INSTALL PACKAGES ======" \
@@ -8,7 +8,7 @@ RUN echo "====== INSTALL PACKAGES ======" \
    sqlite \
  && rm -rf /var/cache/apk/*
 
-ARG GITEA_VERSION=release/v1.10
+ARG GITEA_VERSION=release/v1.11
 ARG GOPATH="/usr"
 
 RUN echo "====== COMPILE GITEA ======" \
@@ -24,7 +24,9 @@ RUN echo "====== COMPILE GITEA ======" \
  && cd /usr/src && rm -rf /usr/pkg/* /usr/src/* \
  && apk del --purge .build-gitea && rm -rf /var/cache/apk/*
 
-RUN usermod -p '*' -s /bin/bash guardian
+COPY override /
+RUN echo "====== FINISHING TOUCHES ======" \
+ && usermod -p '*' -s /bin/bash guardian \
+ && cp /etc/gitea/${GITEA_VERSION}/app.ini /etc/gitea/app.ini
 
 EXPOSE 22/tcp 3000/tcp
-COPY override /
