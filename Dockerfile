@@ -21,7 +21,8 @@ RUN echo "====== COMPILE GITEA ======" \
  && cd /usr/src && rm -rf /usr/pkg/* /usr/src/* \
  && apk del --purge .build-gitea && rm -rf /var/cache/apk/*
 
-RUN usermod -p '*' -s /bin/bash guardian
+COPY override /
+RUN echo "====== FINISHING TOUCHES ======" \
+ && usermod -p '*' -s /bin/bash guardian
 
 EXPOSE 22/tcp 3000/tcp
-COPY override /
