@@ -13,7 +13,7 @@ ARG GOPATH="/usr"
 
 RUN echo "====== COMPILE GITEA ======" \
  && mkdir /etc/gitea \
- && apk add --virtual .build-gitea build-base go \
+ && apk add --virtual .build-gitea build-base go nodejs npm \
  && cd /usr/src \
  && go get -u code.gitea.io/gitea && cd code.gitea.io/gitea \
  && git fetch && git fetch --tags \
