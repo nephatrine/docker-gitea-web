@@ -38,7 +38,7 @@ steps:
   - docker rmi pdr.nephatrine.net/nephatrine/gitea-web:1.10
 - name: build-1.11
   commands:
-  - docker build --pull -t pdr.nephatrine.net/nephatrine/gitea-web:1.11 -f Dockerfile-1.11 .
+  - docker build --pull -t pdr.nephatrine.net/nephatrine/gitea-web:1.11 .
   - HOME=/mnt/config/home docker push pdr.nephatrine.net/nephatrine/gitea-web:1.11
   - docker tag pdr.nephatrine.net/nephatrine/gitea-web:1.11 nephatrine/gitea-web:1.11
   - HOME=/mnt/config/home docker push nephatrine/gitea-web:1.11
