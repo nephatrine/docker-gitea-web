@@ -10,6 +10,7 @@ RUN echo "====== INSTALL PACKAGES ======" \
 
 ARG GITEA_VERSION=release/v1.11
 ARG GOPATH="/usr"
+ARG TAGS="bindata sqlite sqlite_unlock_notify"
 
 RUN echo "====== COMPILE GITEA ======" \
  && apk add --virtual .build-gitea build-base go nodejs npm \
@@ -17,7 +18,8 @@ RUN echo "====== COMPILE GITEA ======" \
  && go get -u code.gitea.io/gitea && cd code.gitea.io/gitea \
  && git fetch && git fetch --tags \
  && git checkout "$GITEA_VERSION" \
- && TAGS="bindata sqlite sqlite_unlock_notify" make generate build \
+ && make frontend \
+ && make backend \
  && mv ./gitea /usr/bin/ \
  && cd /usr/src && rm -rf /usr/pkg/* /usr/src/* \
  && apk del --purge .build-gitea && rm -rf /var/cache/apk/*
