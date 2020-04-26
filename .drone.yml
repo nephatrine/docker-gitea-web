@@ -8,13 +8,6 @@ platform:
   arch: amd64
 
 steps:
-- name: build-1.7
-  commands:
-  - docker build --pull -t pdr.nephatrine.net/nephatrine/gitea-web:1.7 -f Dockerfile-1.7 .
-  - HOME=/mnt/config/home docker push pdr.nephatrine.net/nephatrine/gitea-web:1.7
-  - docker tag pdr.nephatrine.net/nephatrine/gitea-web:1.7 nephatrine/gitea-web:1.7
-  - HOME=/mnt/config/home docker push nephatrine/gitea-web:1.7
-  - docker rmi pdr.nephatrine.net/nephatrine/gitea-web:1.7
 - name: build-1.8
   commands:
   - docker build --pull -t pdr.nephatrine.net/nephatrine/gitea-web:1.8 -f Dockerfile-1.8 .
