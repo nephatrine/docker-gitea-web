@@ -51,7 +51,7 @@ steps:
     webhook_id:
       from_secret: wh-infra-id
     webhook_token:
-      from_secret: wh-infra-token
+      from_secret: wh-infra-tok
 
 depends_on:
 - default
