@@ -1,4 +1,4 @@
-FROM nephatrine/alpine-s6:3.12
+FROM nephatrine/alpine-s6:3.11
 LABEL maintainer="Daniel Wolf <nephatrine@gmail.com>"
 
 RUN echo "====== INSTALL PACKAGES ======" \
@@ -8,7 +8,7 @@ RUN echo "====== INSTALL PACKAGES ======" \
    sqlite \
  && rm -rf /var/cache/apk/*
 
-ARG GITEA_VERSION=release/v1.12
+ARG GITEA_VERSION=release/v1.11
 ARG GOPATH="/usr"
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
 
