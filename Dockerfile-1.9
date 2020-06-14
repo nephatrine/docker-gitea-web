@@ -25,7 +25,7 @@ RUN echo "====== COMPILE GITEA ======" \
 COPY override /
 RUN echo "====== FINISHING TOUCHES ======" \
  && usermod -p '*' -s /bin/bash guardian \
- && cp /etc/gitea/${GITEA_VERSION}/app.ini /etc/gitea/app.ini \
+ && cp /etc/gitea/${GITEA_VERSION}/app.ini* /etc/gitea/ \
  && rm -rf /etc/gitea/release
 
 EXPOSE 22/tcp 3000/tcp
