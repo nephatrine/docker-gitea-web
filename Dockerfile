@@ -16,7 +16,7 @@ RUN echo "====== COMPILE GITEA ======" \
  && cd /usr/src \
  && go get -u code.gitea.io/gitea && cd code.gitea.io/gitea \
  && TAGS="bindata sqlite sqlite_unlock_notify" make generate build \
- && cp ./custom/conf/app.ini.sample /etc/gitea/app.ini.sample \
+ && cp ./custom/conf/app.example.ini /etc/gitea/app.ini.sample \
  && mv ./gitea /usr/bin/ \
  && cd /usr/src && rm -rf /usr/pkg/* /usr/src/* \
  && apk del --purge .build-gitea && rm -rf /var/cache/apk/*
