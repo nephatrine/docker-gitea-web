@@ -39,3 +39,9 @@ trigger:
   status:
   - success
   - failure
+
+---
+kind: signature
+hmac: f81b78f5ae765b726ab18442d115b6838c8b7f554f6886de1b0b705b17284f77
+
+...
