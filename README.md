@@ -19,7 +19,7 @@ FOR INSTANCE, AN [NGINX](https://nginx.com/) REVERSE PROXY CONTAINER.**
 You can spin up a quick temporary test container like this:
 
 ~~~
-docker run --rm -p 3000:3000 -v /var/run/docker.sock:/run/docker.sock -it nephatrine/gitea-web:latest /bin/bash
+docker run --rm -p 3000:3000 -it nephatrine/gitea-web:latest /bin/bash
 ~~~
 
 When starting the container for the first time, sshd startup might take a
