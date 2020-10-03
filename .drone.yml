@@ -8,31 +8,21 @@ platform:
   arch: amd64
 
 steps:
-- name: build-1.9
+- name: build-previous
   commands:
-  - docker build --pull -t pdr.nephatrine.net/nephatrine/gitea-web:1.9 -f Dockerfile-1.9 .
-  - HOME=/mnt/config/home docker push pdr.nephatrine.net/nephatrine/gitea-web:1.9
-  - docker tag pdr.nephatrine.net/nephatrine/gitea-web:1.9 nephatrine/gitea-web:1.9
-  - HOME=/mnt/config/home docker push nephatrine/gitea-web:1.9
-  - docker rmi pdr.nephatrine.net/nephatrine/gitea-web:1.9
-- name: build-1.10
-  commands:
-  - docker build --pull -t pdr.nephatrine.net/nephatrine/gitea-web:1.10 -f Dockerfile-1.10 .
-  - HOME=/mnt/config/home docker push pdr.nephatrine.net/nephatrine/gitea-web:1.10
-  - docker tag pdr.nephatrine.net/nephatrine/gitea-web:1.10 nephatrine/gitea-web:1.10
-  - HOME=/mnt/config/home docker push nephatrine/gitea-web:1.10
-  - docker rmi pdr.nephatrine.net/nephatrine/gitea-web:1.10
-- name: build-1.11
-  commands:
-  - docker build --pull -t pdr.nephatrine.net/nephatrine/gitea-web:1.11 -f Dockerfile-1.11 .
-  - HOME=/mnt/config/home docker push pdr.nephatrine.net/nephatrine/gitea-web:1.11
-  - docker tag pdr.nephatrine.net/nephatrine/gitea-web:1.11 nephatrine/gitea-web:1.11
+  - docker build --pull -t pdr.nephatrine.net/nephatrine/gitea-web:previous -f Dockerfile-old .
+  - HOME=/mnt/config/home docker push pdr.nephatrine.net/nephatrine/gitea-web:previous
+  - docker tag pdr.nephatrine.net/nephatrine/gitea-web:previous nephatrine/gitea-web:1.11
   - HOME=/mnt/config/home docker push nephatrine/gitea-web:1.11
-  - docker rmi pdr.nephatrine.net/nephatrine/gitea-web:1.11
+  - docker tag pdr.nephatrine.net/nephatrine/gitea-web:previous nephatrine/gitea-web:previous
+  - HOME=/mnt/config/home docker push nephatrine/gitea-web:previous
+  - docker rmi pdr.nephatrine.net/nephatrine/gitea-web:previous
 - name: build-latest
   commands:
   - docker build --pull -t pdr.nephatrine.net/nephatrine/gitea-web:latest .
   - HOME=/mnt/config/home docker push pdr.nephatrine.net/nephatrine/gitea-web:latest
+  - docker tag pdr.nephatrine.net/nephatrine/gitea-web:latest nephatrine/gitea-web:1.12
+  - HOME=/mnt/config/home docker push nephatrine/gitea-web:1.12
   - docker tag pdr.nephatrine.net/nephatrine/gitea-web:latest nephatrine/gitea-web:latest
   - HOME=/mnt/config/home docker push nephatrine/gitea-web:latest
   - docker rmi pdr.nephatrine.net/nephatrine/gitea-web:latest
