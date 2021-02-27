@@ -33,10 +33,9 @@ time in a number of ways:
 ## Docker Tags
 
 - **nephatrine/gitea-web:testing**: Gitea Master (Alpine Edge)
-- **nephatrine/gitea-web:latest**: Gitea v1.12 (Alpine v3.12)
+- **nephatrine/gitea-web:latest**: Gitea v1.13 (Alpine v3.13)
+- **nephatrine/gitea-web:1.12**: Gitea v1.12 (Alpine v3.12)
 - **nephatrine/gitea-web:1.11**: Gitea v1.11 (Alpine v3.11)
-- **nephatrine/gitea-web:1.10**: Gitea v1.10 (Alpine v3.10)
-- **nephatrine/gitea-web:1.9**: Gitea v1.9 (Alpine v3.10
 
 ## Configuration Variables
 
