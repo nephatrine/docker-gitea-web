@@ -15,7 +15,7 @@ ARG TAGS="bindata sqlite sqlite_unlock_notify"
 RUN echo "====== COMPILE GITEA ======" \
  && apk add --virtual .build-gitea build-base go nodejs npm \
  && cd /usr/src \
- && go get -u code.gitea.io/gitea && cd code.gitea.io/gitea \
+ && go get -d code.gitea.io/gitea && cd code.gitea.io/gitea \
  && git fetch && git fetch --tags \
  && git checkout "$GITEA_VERSION" \
  && make frontend \
