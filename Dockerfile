@@ -8,14 +8,19 @@ RUN echo "====== INSTALL PACKAGES ======" \
    sqlite \
  && rm -rf /var/cache/apk/*
 
+ARG GITEA_VERSION="master"
 ARG GOPATH="/usr"
+ARG TAGS="bindata sqlite sqlite_unlock_notify"
 
 RUN echo "====== COMPILE GITEA ======" \
- && mkdir /etc/gitea \
  && apk add --virtual .build-gitea build-base go nodejs npm \
  && cd /usr/src \
- && go get -u code.gitea.io/gitea && cd code.gitea.io/gitea \
- && TAGS="bindata sqlite sqlite_unlock_notify" make generate build \
+ && git clone https://github.com/go-gitea/gitea.git
+
+ RUN cd /usr/src && cd gitea \
+ && make frontend \
+ && make backend \
+ && mkdir /etc/gitea \
  && cp ./custom/conf/app.example.ini /etc/gitea/app.ini.sample \
  && mv ./gitea /usr/bin/ \
  && cd /usr/src && rm -rf /usr/pkg/* /usr/src/* \
