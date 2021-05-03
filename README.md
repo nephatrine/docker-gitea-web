@@ -33,8 +33,8 @@ time in a number of ways:
 ## Docker Tags
 
 - **nephatrine/gitea-web:testing**: Gitea Master
-- **nephatrine/gitea-web:latest**: Gitea 1.13
-- **nephatrine/gitea-web:1.13**: Gitea 1.13
+- **nephatrine/gitea-web:latest**: Gitea 1.14
+- **nephatrine/gitea-web:1.14**: Gitea 1.14
 
 ## Configuration Variables
 
