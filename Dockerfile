@@ -8,7 +8,7 @@ RUN echo "====== INSTALL PACKAGES ======" \
    sqlite \
  && rm -rf /var/cache/apk/*
 
-ARG GITEA_VERSION=release/v1.13
+ARG GITEA_VERSION=release/v1.14
 ARG GOPATH="/usr"
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
 
