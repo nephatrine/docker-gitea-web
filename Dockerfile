@@ -20,14 +20,13 @@ RUN echo "====== COMPILE GITEA ======" \
  && git checkout "$GITEA_VERSION" \
  && make frontend \
  && make backend \
+ && cp ./custom/conf/app.example.ini /etc/gitea/app.ini.sample \
  && mv ./gitea /usr/bin/ \
  && cd /usr/src && rm -rf /usr/pkg/* /usr/src/* \
  && apk del --purge .build-gitea && rm -rf /var/cache/apk/*
 
 COPY override /
 RUN echo "====== FINISHING TOUCHES ======" \
- && usermod -p '*' -s /bin/bash guardian \
- && cp /etc/gitea/${GITEA_VERSION}/app.ini* /etc/gitea/ \
- && rm -rf /etc/gitea/release
+ && usermod -p '*' -s /bin/bash guardian
 
 EXPOSE 22/tcp 3000/tcp
