@@ -10,7 +10,7 @@ platform:
 steps:
 - name: build
   commands:
-  - docker build --pull -t pdr.nephatrine.net/nephatrine/gitea-web:testing .
+  - docker build -t pdr.nephatrine.net/nephatrine/gitea-web:testing .
   - HOME=/mnt/config/home docker push pdr.nephatrine.net/nephatrine/gitea-web:testing
   - docker tag pdr.nephatrine.net/nephatrine/gitea-web:testing nephatrine/gitea-web:testing
   - HOME=/mnt/config/home docker push nephatrine/gitea-web:testing
@@ -42,6 +42,6 @@ trigger:
 
 ---
 kind: signature
-hmac: f81b78f5ae765b726ab18442d115b6838c8b7f554f6886de1b0b705b17284f77
+hmac: 0ae9067187bca1a9f7131d1629fd9547c79be33af2d2303ea85886913b3a79d3
 
 ...
