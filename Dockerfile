@@ -1,4 +1,4 @@
-FROM nephatrine/alpine-s6:3.13
+FROM nephatrine/alpine-s6:latest
 LABEL maintainer="Daniel Wolf <nephatrine@gmail.com>"
 
 RUN echo "====== INSTALL PACKAGES ======" \
@@ -14,14 +14,12 @@ ARG TAGS="bindata sqlite sqlite_unlock_notify"
 
 RUN echo "====== COMPILE GITEA ======" \
  && apk add --virtual .build-gitea build-base go nodejs npm \
- && cd /usr/src \
- && go get -d code.gitea.io/gitea && cd code.gitea.io/gitea \
- && git fetch && git fetch --tags \
- && git checkout "$GITEA_VERSION" \
+ && mkdir -p /usr/src/code.gitea.io \
+ && git -C /usr/src/code.gitea.io clone -b "$GITEA_VERSION" --single-branch --depth=1 https://github.com/go-gitea/gitea.git && cd /usr/src/code.gitea.io/gitea \
  && make frontend \
  && make backend \
- && cp ./custom/conf/app.example.ini /etc/gitea/app.ini.sample \
  && mv ./gitea /usr/bin/ \
+ && mkdir /etc/gitea && cp ./custom/conf/app.example.ini /etc/gitea/app.ini.sample \
  && cd /usr/src && rm -rf /usr/pkg/* /usr/src/* \
  && apk del --purge .build-gitea && rm -rf /var/cache/apk/*
 
