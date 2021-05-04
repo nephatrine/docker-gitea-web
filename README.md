@@ -24,9 +24,8 @@ docker run --rm -p 3000:3000 -it nephatrine/gitea-web:latest /bin/bash
 
 When starting the container for the first time, sshd startup might take a
 **considerable** amount of time to create the DH moduli. You can reduce this
-time in a number of ways:
+time in two ways:
 
-- Do not use diffie-hellman KexAlgorithms in ``/mnt/config/etc/ssh/sshd_config``.
 - Provide your own precomputed moduli at ``/mnt/config/etc/ssh/moduli``.
 - Decrease the moduli bit size using ``B_MODULI`` variable.
 
@@ -47,7 +46,6 @@ configuration files.
 - ``B_DSA``: Default DSA Key Size (*1024*)
 - ``B_RSA``: Default RSA Key Size (*4096*)
 - ``B_ECDSA``: Default ECDSA Key Size (*384*)
-- ``B_ED25519``: Default ed25519 Key Size (*256*)
 - ``PUID``: Mount Owner UID (*1000*)
 - ``PGID``: Mount Owner GID (*100*)
 - ``TZ``: System Timezone (*America/New_York*)
