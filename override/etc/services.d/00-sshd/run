@@ -1,9 +1,18 @@
-#!/usr/bin/with-contenv sh
+#!/usr/bin/with-contenv bash
+
+B_MODULI=${B_MODULI:-4096}
 
 s6-setuidgid guardian touch /mnt/config/log/sshd.log
 
 if ! pgrep sshd >/dev/null; then
-  GENERATE_MODULI=true /etc/cont-init.d/01-sshd
+  if [[ ! -e /mnt/config/etc/ssh/moduli ]]; then
+    ssh-keygen -G /etc/ssh/moduli.candidates -b ${B_MODULI} && ssh-keygen -T /etc/ssh/moduli.safe -f /etc/ssh/moduli.candidates && mv /etc/ssh/moduli.safe /etc/ssh/moduli
+    s6-setuidgid guardian cp /etc/ssh/moduli /mnt/config/etc/ssh/moduli
+    rm -f /etc/ssh/moduli.candidates
+  fi
+  cp /mnt/config/etc/ssh/moduli /etc/ssh/moduli
+  chmod 644 /etc/ssh/moduli
+
   exec /usr/sbin/sshd -E /mnt/config/log/sshd.log -f /mnt/config/etc/ssh/sshd_config;
   sleep 5
 fi
