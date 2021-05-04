@@ -6,7 +6,7 @@ s6-setuidgid guardian touch /mnt/config/log/sshd.log
 
 if ! pgrep sshd >/dev/null; then
   if [[ ! -e /mnt/config/etc/ssh/moduli ]]; then
-    ssh-keygen -G /etc/ssh/moduli.candidates -b ${B_MODULI} && ssh-keygen -T /etc/ssh/moduli.safe -f /etc/ssh/moduli.candidates && mv /etc/ssh/moduli.safe /etc/ssh/moduli
+    ssh-keygen -M generate -O bits=${B_MODULI} /etc/ssh/moduli.candidates && ssh-keygen -M screen -f /etc/ssh/moduli.candidates /etc/ssh/moduli.safe && mv /etc/ssh/moduli.safe /etc/ssh/moduli
     s6-setuidgid guardian cp /etc/ssh/moduli /mnt/config/etc/ssh/moduli
     rm -f /etc/ssh/moduli.candidates
   fi
