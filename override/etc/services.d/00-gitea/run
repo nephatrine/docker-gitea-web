@@ -1,4 +1,2 @@
 #!/usr/bin/with-contenv sh
-
-/etc/cont-init.d/01-gitea
 GITEA_CUSTOM=/mnt/config/www/gitea HOME=/mnt/config/home USER=guardian exec s6-setuidgid guardian /usr/bin/gitea web --config /mnt/config/etc/gitea/app.ini --pid /tmp/gitea/gitea.pid;
