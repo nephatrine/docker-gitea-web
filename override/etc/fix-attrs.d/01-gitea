@@ -1,5 +1,5 @@
 /mnt/config/data/git true guardian:users,1000:100 0644 0755
-/mnt/config/data/git/lfs true guardian:users,1000:100 0600 0700
 /mnt/config/data/gitea true guardian:users,1000:100 0644 0755
-/mnt/config/data/gitea/cache true guardian:users,1000:100 0600 0700
+/mnt/config/data/gitea/db true guardian:users,1000:100 0600 0700
+/mnt/config/data/gitea/jwt true guardian:users,1000:100 0600 0700
 /mnt/config/www/gitea true guardian:users,1000:100 0644 0755
