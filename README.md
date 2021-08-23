@@ -1,4 +1,4 @@
-[Git](https://code.nephatrine.net/nephatrine/docker-gitea-web) |
+[Git](https://code.nephatrine.net/nephatrine/docker-gitea-web/src/branch/master) |
 [Docker](https://hub.docker.com/r/nephatrine/gitea-web/) |
 [unRAID](https://code.nephatrine.net/nephatrine/unraid-containers)
 
@@ -12,6 +12,9 @@ repositories.
 **YOU WILL NEED TO USE A SEPARATE REVERSE PROXY SERVER TO SECURE THIS SERVICE.
 FOR INSTANCE, AN [NGINX](https://nginx.com/) REVERSE PROXY CONTAINER.**
 
+- [Alpine Linux](https://alpinelinux.org/)
+- [Skarnet Software](https://skarnet.org/software/)
+- [S6 Overlay](https://github.com/just-containers/s6-overlay)
 - [Gitea](https://gitea.io/en-us/)
 - [OpenSSH](https://openssh.com/)
 - [SQLite](https://www.sqlite.org/)
@@ -31,9 +34,8 @@ time in two ways:
 
 ## Docker Tags
 
-- **nephatrine/gitea-web:testing**: Gitea Master
-- **nephatrine/gitea-web:latest**: Gitea 1.14
-- **nephatrine/gitea-web:1.14**: Gitea 1.14
+- **nephatrine/gitea-web:testing**: Gitea 1.15 / Alpine Edge
+- **nephatrine/gitea-web:latest**: Gitea 1.15 / Alpine Latest
 
 ## Configuration Variables
 
