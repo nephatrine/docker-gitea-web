@@ -17,9 +17,11 @@ if egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_ke
     cp /etc/ssh/ssh_host_key* /mnt/config/etc/ssh/
     chown guardian:users /mnt/config/etc/ssh/ssh_host_key*
   fi
-  cp /mnt/config/etc/ssh/ssh_host_key* /etc/ssh/
-  chmod 600 /etc/ssh/ssh_host_key
-  chmod 644 /etc/ssh/ssh_host_key.pub
+  if [[ -e /mnt/config/etc/ssh/ssh_host_key ]]; then
+    cp /mnt/config/etc/ssh/ssh_host_key* /etc/ssh/
+    chmod 600 /etc/ssh/ssh_host_key
+    chmod 644 /etc/ssh/ssh_host_key.pub
+  fi
 fi
 
 if egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_dsa_key'; then
@@ -28,9 +30,11 @@ if egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_ds
     cp /etc/ssh/ssh_host_dsa_key* /mnt/config/etc/ssh/
     chown guardian:users /mnt/config/etc/ssh/ssh_host_dsa_key*
   fi
-  cp /mnt/config/etc/ssh/ssh_host_dsa_key* /etc/ssh/
-  chmod 600 /etc/ssh/ssh_host_dsa_key
-  chmod 644 /etc/ssh/ssh_host_dsa_key.pub
+  if [[ -e /mnt/config/etc/ssh/ssh_host_dsa_key ]]; then
+    cp /mnt/config/etc/ssh/ssh_host_dsa_key* /etc/ssh/
+    chmod 600 /etc/ssh/ssh_host_dsa_key
+    chmod 644 /etc/ssh/ssh_host_dsa_key.pub
+  fi
 fi
 
 if egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_rsa_key'; then
@@ -39,9 +43,11 @@ if egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_rs
     cp /etc/ssh/ssh_host_rsa_key* /mnt/config/etc/ssh/
     chown guardian:users /mnt/config/etc/ssh/ssh_host_rsa_key*
   fi
-  cp /mnt/config/etc/ssh/ssh_host_rsa_key* /etc/ssh/
-  chmod 600 /etc/ssh/ssh_host_rsa_key
-  chmod 644 /etc/ssh/ssh_host_rsa_key.pub
+  if [[ -e /mnt/config/etc/ssh/ssh_host_rsa_key ]]; then
+    cp /mnt/config/etc/ssh/ssh_host_rsa_key* /etc/ssh/
+    chmod 600 /etc/ssh/ssh_host_rsa_key
+    chmod 644 /etc/ssh/ssh_host_rsa_key.pub
+  fi
 fi
 
 if egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_ecdsa_key'; then
@@ -50,9 +56,11 @@ if egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_ec
     cp /etc/ssh/ssh_host_ecdsa_key* /mnt/config/etc/ssh/
     chown guardian:users /mnt/config/etc/ssh/ssh_host_ecdsa_key*
   fi
-  cp /mnt/config/etc/ssh/ssh_host_ecdsa_key* /etc/ssh/
-  chmod 600 /etc/ssh/ssh_host_ecdsa_key
-  chmod 644 /etc/ssh/ssh_host_ecdsa_key.pub
+  if [[ -e /mnt/config/etc/ssh/ssh_host_ecdsa_key ]]; then
+    cp /mnt/config/etc/ssh/ssh_host_ecdsa_key* /etc/ssh/
+    chmod 600 /etc/ssh/ssh_host_ecdsa_key
+    chmod 644 /etc/ssh/ssh_host_ecdsa_key.pub
+  fi
 fi
 
 if egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_ed25519_key'; then
@@ -61,7 +69,9 @@ if egrep -v '^#' /mnt/config/etc/ssh/sshd_config | grep -q '/etc/ssh/ssh_host_ed
     cp /etc/ssh/ssh_host_ed25519_key* /mnt/config/etc/ssh/
     chown guardian:users /mnt/config/etc/ssh/ssh_host_ed25519_key*
   fi
-  cp /mnt/config/etc/ssh/ssh_host_ed25519_key* /etc/ssh/
-  chmod 600 /etc/ssh/ssh_host_ed25519_key
-  chmod 644 /etc/ssh/ssh_host_ed25519_key.pub
+  if [[ -e /mnt/config/etc/ssh/ssh_host_ed25519_key ]]; then
+    cp /mnt/config/etc/ssh/ssh_host_ed25519_key* /etc/ssh/
+    chmod 600 /etc/ssh/ssh_host_ed25519_key
+    chmod 644 /etc/ssh/ssh_host_ed25519_key.pub
+  fi
 fi
