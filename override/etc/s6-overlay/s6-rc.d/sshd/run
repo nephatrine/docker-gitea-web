@@ -1,0 +1,115 @@
+#!/command/with-contenv /bin/bash
+
+B_DSA=${B_DSA:-1024}
+B_RSA=${B_RSA:-4096}
+B_ECDSA=${B_ECDSA:-384}
+B_MODULI=${B_MODULI:-4096}
+
+# Build SSH Config
+
+if [[ ! -d /mnt/config/etc/ssh ]]; then
+  /command/s6-setuidgid guardian /bin/mkdir -p /mnt/config/etc/ssh
+fi
+if [[ ! -f /mnt/config/etc/ssh/sshd_config ]]; then
+  /bin/cp /etc/ssh/sshd_config /mnt/config/etc/ssh/sshd_config
+  /bin/chown guardian:users /mnt/config/etc/ssh/sshd_config
+fi
+
+# Create SSH Keys
+
+if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_key'; then
+  if [[ ! -f /mnt/config/etc/ssh/ssh_host_key ]]; then
+    /usr/bin/ssh-keygen -t rsa1 -f /etc/ssh/ssh_host_key -N ''
+    /bin/cp /etc/ssh/ssh_host_key* /mnt/config/etc/ssh/
+    /bin/chown guardian:users /mnt/config/etc/ssh/ssh_host_key*
+  fi
+  if [[ -f /mnt/config/etc/ssh/ssh_host_key ]]; then
+    /bin/cp /mnt/config/etc/ssh/ssh_host_key* /etc/ssh/
+    /bin/chmod 600 /etc/ssh/ssh_host_key
+    /bin/chmod 644 /etc/ssh/ssh_host_key.pub
+  fi
+fi
+
+if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_dsa_key'; then
+  if [[ ! -f /mnt/config/etc/ssh/ssh_host_dsa_key ]]; then
+    /usr/bin/ssh-keygen -t dsa -b ${B_DSA} -f /etc/ssh/ssh_host_dsa_key -N ''
+    /bin/cp /etc/ssh/ssh_host_dsa_key* /mnt/config/etc/ssh/
+    /bin/chown guardian:users /mnt/config/etc/ssh/ssh_host_dsa_key*
+  fi
+  if [[ -f /mnt/config/etc/ssh/ssh_host_dsa_key ]]; then
+    /bin/cp /mnt/config/etc/ssh/ssh_host_dsa_key* /etc/ssh/
+    /bin/chmod 600 /etc/ssh/ssh_host_dsa_key
+    /bin/chmod 644 /etc/ssh/ssh_host_dsa_key.pub
+  fi
+fi
+
+if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_rsa_key'; then
+  echo "USING RSA"
+  if [[ ! -f /mnt/config/etc/ssh/ssh_host_rsa_key ]]; then
+    /usr/bin/ssh-keygen -t rsa -b ${B_RSA} -f /etc/ssh/ssh_host_rsa_key -N ''
+    /bin/cp /etc/ssh/ssh_host_rsa_key* /mnt/config/etc/ssh/
+    /bin/chown guardian:users /mnt/config/etc/ssh/ssh_host_rsa_key*
+  fi
+  if [[ -f /mnt/config/etc/ssh/ssh_host_rsa_key ]]; then
+    /bin/cp /mnt/config/etc/ssh/ssh_host_rsa_key* /etc/ssh/
+    /bin/chmod 600 /etc/ssh/ssh_host_rsa_key
+    /bin/chmod 644 /etc/ssh/ssh_host_rsa_key.pub
+  fi
+fi
+
+if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_ecdsa_key'; then
+  if [[ ! -f /mnt/config/etc/ssh/ssh_host_ecdsa_key ]]; then
+    /usr/bin/ssh-keygen -t ecdsa -b ${B_ECDSA} -f /etc/ssh/ssh_host_ecdsa_key -N ''
+    /bin/cp /etc/ssh/ssh_host_ecdsa_key* /mnt/config/etc/ssh/
+    /bin/chown guardian:users /mnt/config/etc/ssh/ssh_host_ecdsa_key*
+  fi
+  if [[ -f /mnt/config/etc/ssh/ssh_host_ecdsa_key ]]; then
+    /bin/cp /mnt/config/etc/ssh/ssh_host_ecdsa_key* /etc/ssh/
+    /bin/chmod 600 /etc/ssh/ssh_host_ecdsa_key
+    /bin/chmod 644 /etc/ssh/ssh_host_ecdsa_key.pub
+  fi
+fi
+
+if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_ed25519_key'; then
+  if [[ ! -f /mnt/config/etc/ssh/ssh_host_ed25519_key ]]; then
+    /usr/bin/ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ''
+    /bin/cp /etc/ssh/ssh_host_ed25519_key* /mnt/config/etc/ssh/
+    /bin/chown guardian:users /mnt/config/etc/ssh/ssh_host_ed25519_key*
+  fi
+  if [[ -f /mnt/config/etc/ssh/ssh_host_ed25519_key ]]; then
+    /bin/cp /mnt/config/etc/ssh/ssh_host_ed25519_key* /etc/ssh/
+    /bin/chmod 600 /etc/ssh/ssh_host_ed25519_key
+    /bin/chmod 644 /etc/ssh/ssh_host_ed25519_key.pub
+  fi
+fi
+
+if [[ ! -f /mnt/config/etc/ssh/moduli ]]; then
+  /usr/bin/ssh-keygen -M generate -O bits=${B_MODULI} /etc/ssh/moduli.candidates \
+  && /usr/bin/ssh-keygen -M screen -f /etc/ssh/moduli.candidates /etc/ssh/moduli.safe \
+  && /bin/mv /etc/ssh/moduli.safe /etc/ssh/moduli
+  /bin/cp /etc/ssh/moduli /mnt/config/etc/ssh/moduli
+  /bin/chown guardian:users /mnt/config/etc/ssh/moduli
+  /bin/rm -f /etc/ssh/moduli.candidates
+fi
+/bin/cp /mnt/config/etc/ssh/moduli /etc/ssh/moduli
+/bin/chmod 644 /etc/ssh/moduli
+
+# Create Logging Driectory
+
+if [[ ! -d /mnt/config/log ]]; then
+  /command/s6-setuidgid guardian /bin/mkdir -p /mnt/config/log
+fi
+if [[ ! -f /mnt/config/log/sshd.log ]]; then
+  s6-setuidgid guardian /bin/touch /mnt/config/log/sshd.log
+fi
+
+# Start Service
+
+if ! pgrep sshd >/dev/null; then
+  exec /usr/sbin/sshd -E /mnt/config/log/sshd.log -f /mnt/config/etc/ssh/sshd_config;
+  sleep 5
+fi
+
+while pgrep sshd >/dev/null; do
+  sleep 60
+done

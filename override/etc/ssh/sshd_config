@@ -14,12 +14,15 @@ PrintMotd           no
 ClientAliveInterval 360
 ClientAliveCountMax 0
 
+LogLevel VERBOSE
 Subsystem sftp internal-sftp
 
 AuthenticationMethods publickey
 AllowUsers            guardian
 
-# https://cipherli.st/
+# https://infosec.mozilla.org/guidelines/openssh
+# https://syslink.pl/cipherlist/
+
 Protocol 2
 HostKey /etc/ssh/ssh_host_ed25519_key
 HostKey /etc/ssh/ssh_host_rsa_key
