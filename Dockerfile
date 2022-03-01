@@ -1,16 +1,17 @@
 FROM nephatrine/alpine-s6:latest
 LABEL maintainer="Daniel Wolf <nephatrine@gmail.com>"
 
+RUN echo "====== INSTALL TOOLS ======" \
+ && apk add --no-cache \
+  git git-lfs \
+  openssh-server openssh-keygen \
+  sqlite
+
 ARG GITEA_VERSION=release/v1.15
 ARG GOPATH="/usr"
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
-
 RUN echo "====== COMPILE GITEA ======" \
- && apk add \
-  git git-lfs \
-  openssh-server openssh-keygen \
-  sqlite \
- && apk add --virtual .build-gitea \
+ && apk add --no-cache --virtual .build-gitea \
   go \
   make \
   npm \
@@ -22,7 +23,7 @@ RUN echo "====== COMPILE GITEA ======" \
  && mkdir /etc/gitea && cp ./custom/conf/app.example.ini /etc/gitea/app.ini.sample \
  && usermod -p '*' -s /bin/bash guardian \
  && cd /usr/src && rm -rf /usr/pkg/* /usr/src/* \
- && apk del --purge .build-gitea && rm -rf /var/cache/apk/*
+ && apk del --purge .build-gitea
 
 COPY override /
 EXPOSE 22/tcp 3000/tcp
