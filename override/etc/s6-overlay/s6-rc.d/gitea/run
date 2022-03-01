@@ -11,7 +11,7 @@ if [[ -f /mnt/config/etc/gitea/app.ini && ! -f /mnt/config/etc/gitea.ini ]]; the
     /command/s6-setuidgid guardian /bin/sed -i 's~/mnt/config/etc/gitea/app.ini~/mnt/config/etc/gitea.ini~g' /mnt/config/home/.ssh/authorized_keys
   fi
   if [[ -d /mnt/config/data/git/repos ]]; then
-    /command/s6-setuidgid guardian /usr/bin/find /mnt/config/data/git/repos -name hooks -type d | xargs -n1 -I[] /bin/sed -i 's~/mnt/config/etc/gitea/app.ini~/mnt/config/etc/gitea.ini~g' []/pre-receive.d/gitea []/post-receive.d/gitea []/update.d/gitea
+    /usr/bin/find /mnt/config/data/git/repos -name hooks -type d | xargs -n1 -I[] /command/s6-setuidgid guardian /bin/sed -i 's~/mnt/config/etc/gitea/app.ini~/mnt/config/etc/gitea.ini~g' []/pre-receive.d/gitea []/post-receive.d/gitea []/update.d/gitea
   fi
 fi
 if [[ ! -f /mnt/config/etc/gitea.ini ]]; then
