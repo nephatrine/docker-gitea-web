@@ -68,7 +68,7 @@ You can perform some basic configuration of the container using the files and
 directories listed below.
 
 - ``/mnt/config/etc/crontabs/<user>``: User Crontabs. [*]
-- ``/mnt/config/etc/gitea/app.ini``: Gitea Configuration. [*]
+- ``/mnt/config/etc/gitea.ini``: Gitea Configuration. [*]
 - ``/mnt/config/etc/logrotate.conf``: Logrotate Global Configuration.
 - ``/mnt/config/etc/logrotate.d/``: Logrotate Additional Configuration.
 - ``/mnt/config/etc/ssh/moduli``: SSH Diffie-Hellman Moduli. [*]
