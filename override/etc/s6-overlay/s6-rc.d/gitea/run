@@ -5,7 +5,7 @@
 if [[ ! -d /mnt/config/etc ]]; then
   /command/s6-setuidgid guardian /bin/mkdir -p /mnt/config/etc
 fi
-if [[ -f /mnt/config/etc/gitea/app.ini ]]; then
+if [[ -f /mnt/config/etc/gitea/app.ini && ! -f /mnt/config/etc/gitea.ini ]]; then
   /command/s6-setuidgid guardian /bin/mv /mnt/config/etc/gitea/app.ini /mnt/config/etc/gitea.ini
 fi
 if [[ ! -f /mnt/config/etc/gitea.ini ]]; then
