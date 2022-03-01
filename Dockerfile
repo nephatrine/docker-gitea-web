@@ -20,7 +20,7 @@ RUN echo "====== COMPILE GITEA ======" \
  && make frontend \
  && make backend \
  && mv ./gitea /usr/bin/ \
- && mkdir /etc/gitea && cp ./custom/conf/app.example.ini /etc/gitea/app.ini.sample \
+ && cp ./custom/conf/app.example.ini /etc/gitea.ini.sample \
  && usermod -p '*' -s /bin/bash guardian \
  && cd /usr/src && rm -rf /usr/pkg/* /usr/src/* \
  && apk del --purge .build-gitea

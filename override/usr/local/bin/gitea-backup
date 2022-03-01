@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ ! -d /tmp/gitea-backup ]; then
+  /bin/mkdir -p /tmp/gitea-backup
+fi
+
+if [ -d /mnt/config/home ]; then
+  cd /mnt/config/home
+  /usr/bin/find /mnt/config/home/ -maxdepth 1 -type f -name 'gitea-dump-*.zip' -print0 | /usr/bin/xargs -r0 /bin/ls -t | /usr/bin/tail -n +3 | /usr/bin/tr '\n' '\0' | /usr/bin/xargs -r0 /bin/rm
+  export HOME=/mnt/config/home
+  GITEA_CUSTOM=/mnt/config/www/gitea USER=guardian exec /command/s6-setuidgid guardian /usr/bin/gitea dump --config /mnt/config/etc/gitea.ini --tempdir=/tmp/gitea-backup;
+fi

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Build Config
+
+if [[ ! -d /mnt/config/etc ]]; then
+  /command/s6-setuidgid guardian /bin/mkdir -p /mnt/config/etc
+fi
+if [[ -f /mnt/config/etc/gitea/app.ini ]]; then
+  /command/s6-setuidgid guardian /bin/mv /mnt/config/etc/gitea/app.ini /mnt/config/etc/gitea.ini
+fi
+if [[ ! -f /mnt/config/etc/gitea.ini ]]; then
+  /command/s6-setuidgid guardian /bin/cp /etc/gitea.ini /mnt/config/etc/gitea.ini
+fi
+/command/s6-setuidgid guardian /bin/cp /etc/gitea.ini.sample /mnt/config/etc/gitea.ini.sample
+
+# Ensure Git Hooks Executable
+
+if [[ -d /mnt/config/data/git ]]; then
+  /usr/bin/find /mnt/config/data/git/ -name hooks -type d | /usr/bin/xargs -n1 -I[] /usr/bin/find [] -type f -exec /bin/chmod 0700 {} \;
+fi
+
+# Start Service
+
+export HOME=/mnt/config/home
+GITEA_CUSTOM=/mnt/config/www/gitea USER=guardian exec /command/s6-setuidgid guardian /usr/bin/gitea web --config /mnt/config/etc/gitea.ini --pid /tmp/gitea.pid;
