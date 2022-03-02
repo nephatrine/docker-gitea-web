@@ -7,7 +7,7 @@ RUN echo "====== INSTALL TOOLS ======" \
   openssh-server openssh-keygen \
   sqlite
 
-ARG GITEA_VERSION=release/v1.15
+ARG GITEA_VERSION=release/v1.16
 ARG GOPATH="/usr"
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
 RUN echo "====== COMPILE GITEA ======" \
