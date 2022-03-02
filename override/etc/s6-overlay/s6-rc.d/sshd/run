@@ -100,16 +100,16 @@ if [[ ! -d /mnt/config/log ]]; then
   /command/s6-setuidgid guardian /bin/mkdir -p /mnt/config/log
 fi
 if [[ ! -f /mnt/config/log/sshd.log ]]; then
-  s6-setuidgid guardian /bin/touch /mnt/config/log/sshd.log
+  /command/s6-setuidgid guardian /bin/touch /mnt/config/log/sshd.log
 fi
 
 # Start Service
 
-if ! pgrep sshd >/dev/null; then
+if ! /usr/bin/pgrep sshd >/dev/null; then
   exec /usr/sbin/sshd -E /mnt/config/log/sshd.log -f /mnt/config/etc/ssh/sshd_config;
   sleep 5
 fi
 
-while pgrep sshd >/dev/null; do
+while /usr/bin/pgrep sshd >/dev/null; do
   sleep 60
 done
