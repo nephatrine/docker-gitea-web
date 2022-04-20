@@ -9,19 +9,39 @@ platform:
 
 steps:
 - name: build
+  environment:
+    PDR_USER:
+      from_secret: docker-user-pdr
+    PDR_PASS:
+      from_secret: docker-pass-pdr
   commands:
+  - docker build -t pdr.nephatrine.net/nephatrine/gitea-web:cached --target builder .
   - docker build -t pdr.nephatrine.net/nephatrine/gitea-web:latest .
-  - HOME=/mnt/config/home docker push pdr.nephatrine.net/nephatrine/gitea-web:latest
+  - docker login -p "$PDR_PASS" -u "$PDR_USER" pdr.nephatrine.net
+  - docker push pdr.nephatrine.net/nephatrine/gitea-web:latest
+  - docker logout pdr.nephatrine.net
+- name: publish
+  environment:
+    DOCKER_USER:
+      from_secret: docker-user
+    DOCKER_PASS:
+      from_secret: docker-pass
+  commands:
   - docker tag pdr.nephatrine.net/nephatrine/gitea-web:latest nephatrine/gitea-web:latest
-  - HOME=/mnt/config/home docker push nephatrine/gitea-web:latest
-  - docker rmi pdr.nephatrine.net/nephatrine/gitea-web:latest
+  - docker tag pdr.nephatrine.net/nephatrine/gitea-web:latest nephatrine/gitea-web:1.16
+  - docker tag pdr.nephatrine.net/nephatrine/gitea-web:latest nephatrine/gitea-web:1
+  - docker login -p "$DOCKER_PASS" -u "$DOCKER_USER"
+  - docker push -a nephatrine/gitea-web
+  - docker logout
+  depends_on:
+  - build
 
 ---
 kind: pipeline
-name: after
+name: notify
 
 steps:
-- name: notify
+- name: notify-status
   image: appleboy/drone-discord
   failure: ignore
   settings:
@@ -43,6 +63,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 6ca1ddac058d09c1b4bbc523ff80becd15898b99c9a00309ac7a405ce544adb4
+hmac: 1c125d76c737ba302eb156d5fc3ae30cba8589939add7777e07cea8dcd0dbb3c
 
 ...
