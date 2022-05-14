@@ -1,4 +1,4 @@
-FROM pdr.nephatrine.net/nephatrine/alpine-builder:latest AS builder
+FROM nephatrine/alpine:builder AS builder
 
 ARG GITEA_VERSION=release/v1.16
 RUN mkdir -p /usr/src/code.gitea.io \
@@ -11,7 +11,7 @@ RUN echo "====== COMPILE GITEA ======" \
  && make frontend \
  && make backend
 
-FROM pdr.nephatrine.net/nephatrine/alpine-s6:latest
+FROM nephatrine/alpine-s6:latest
 LABEL maintainer="Daniel Wolf <nephatrine@gmail.com>"
 
 RUN echo "====== INSTALL PACKAGES ======" \
