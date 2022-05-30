@@ -1,4 +1,4 @@
-FROM nephatrine/alpine:builder AS builder
+FROM nephatrine/nxbuilder:alpine AS builder
 
 ARG GITEA_VERSION=release/v1.16
 RUN mkdir -p /usr/src/code.gitea.io \
