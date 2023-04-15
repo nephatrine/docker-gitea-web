@@ -34,7 +34,7 @@ time in two ways:
 
 ## Docker Tags
 
-- **nephatrine/gitea-web:latest**: Gitea 1.16 / Alpine Latest
+- **nephatrine/gitea-web:latest**: Gitea 1.19 / Alpine Latest
 
 ## Configuration Variables
 

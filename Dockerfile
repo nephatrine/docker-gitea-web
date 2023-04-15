@@ -1,6 +1,6 @@
 FROM nephatrine/nxbuilder:alpine AS builder
 
-ARG GITEA_VERSION=release/v1.18
+ARG GITEA_VERSION=release/v1.19
 RUN mkdir -p /usr/src/code.gitea.io \
  && git -C /usr/src/code.gitea.io clone -b "$GITEA_VERSION" --single-branch --depth=1 https://github.com/go-gitea/gitea.git
 
