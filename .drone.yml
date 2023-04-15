@@ -28,7 +28,7 @@ steps:
       from_secret: docker-pass
   commands:
   - docker tag pdr.nephatrine.net/nephatrine/gitea-web:latest nephatrine/gitea-web:latest
-  - docker tag pdr.nephatrine.net/nephatrine/gitea-web:latest nephatrine/gitea-web:1.16
+  - docker tag pdr.nephatrine.net/nephatrine/gitea-web:latest nephatrine/gitea-web:1.17
   - docker tag pdr.nephatrine.net/nephatrine/gitea-web:latest nephatrine/gitea-web:1
   - docker login -p "$DOCKER_PASS" -u "$DOCKER_USER"
   - docker push -a nephatrine/gitea-web
@@ -63,6 +63,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 1c125d76c737ba302eb156d5fc3ae30cba8589939add7777e07cea8dcd0dbb3c
+hmac: ea9b67e8fe0ebf014b2564faa08f395daf36cf18e0eb713dbda8b7fa6ea8d301
 
 ...
