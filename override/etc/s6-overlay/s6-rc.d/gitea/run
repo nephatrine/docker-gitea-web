@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export HOME=/mnt/config/home
+cd /mnt/config/home
+
 # Build Config
 
 if [[ ! -d /mnt/config/etc ]]; then
@@ -27,5 +30,4 @@ fi
 
 # Start Service
 
-export HOME=/mnt/config/home
 GITEA_CUSTOM=/mnt/config/www/gitea USER=guardian exec /command/s6-setuidgid guardian /usr/bin/gitea web --config /mnt/config/etc/gitea.ini --pid /tmp/gitea.pid;
