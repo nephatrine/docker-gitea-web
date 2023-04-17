@@ -15,7 +15,8 @@ steps:
     PDR_PASS:
       from_secret: docker-pass-pdr
   commands:
-  - docker build -t pdr.nephatrine.net/nephatrine/gitea-web:cached --target builder .
+  - docker build -t pdr.nephatrine.net/nephatrine/gitea-web:cached1 --target builder1 .
+  - docker build -t pdr.nephatrine.net/nephatrine/gitea-web:cached2 --target builder2 .
   - docker build -t pdr.nephatrine.net/nephatrine/gitea-web:latest .
   - docker login -p "$PDR_PASS" -u "$PDR_USER" pdr.nephatrine.net
   - docker push pdr.nephatrine.net/nephatrine/gitea-web:latest
@@ -63,6 +64,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 4f5330e4ce6f85fbecbead205ebb0ddd5a41e1790d36de4a040bd95bd3dfccc1
+hmac: 7ce647cc5fca1509f711479937449e204b69245199608352b11c424e847d1e0e
 
 ...
