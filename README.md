@@ -7,7 +7,7 @@
 This docker image contains a Gitea server to self-host your own git
 repositories.
 
-To secure this service, we suggest a separate reverse proxy server (e.g. an
+To secure this service, we suggest a separate reverse proxy server, such as an
 [NGINX](https://nginx.com/) container. Alternatively, Gitea does include
 built-in options for using your own SSL certificates or using an ACME service
 such as LetsEncrypt.
