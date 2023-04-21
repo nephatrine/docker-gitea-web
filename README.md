@@ -1,8 +1,6 @@
-[Git](https://code.nephatrine.net/nephatrine/docker-gitea-web/src/branch/master) |
+[Git](https://code.nephatrine.net/NephNET/docker-gitea-web/src/branch/master) |
 [Docker](https://hub.docker.com/r/nephatrine/gitea-web/) |
 [unRAID](https://code.nephatrine.net/nephatrine/unraid-containers)
-
-[![Build Status](https://ci.nephatrine.net/api/badges/nephatrine/docker-gitea-web/status.svg?ref=refs/heads/master)](https://ci.nephatrine.net/nephatrine/docker-gitea-web)
 
 # Gitea Git Repository
 
@@ -14,12 +12,8 @@ To secure this service, we suggest a separate reverse proxy server (e.g. an
 built-in options for using your own SSL certificates or using an ACME service
 such as LetsEncrypt.
 
-- [Alpine Linux](https://alpinelinux.org/)
-- [Skarnet Software](https://skarnet.org/software/)
-- [S6 Overlay](https://github.com/just-containers/s6-overlay)
-- [Gitea](https://gitea.io/en-us/)
-- [OpenSSH](https://openssh.com/)
-- [SQLite](https://www.sqlite.org/)
+- [Alpine Linux](https://alpinelinux.org/) w/ [S6 Overlay](https://github.com/just-containers/s6-overlay)
+- [Gitea](https://gitea.io/en-us/) w/ [OpenSSH](https://openssh.com/) & [SQLite](https://www.sqlite.org/)
 
 You can spin up a quick temporary test container like this:
 
@@ -36,7 +30,7 @@ time in two ways:
 
 ## Docker Tags
 
-- **nephatrine/gitea-web:latest**: Gitea 1.19 / Alpine Latest
+- **nephatrine/gitea-web:latest**: Gitea v1.19.1 / Alpine Latest
 
 ## Configuration Variables
 
