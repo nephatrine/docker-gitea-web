@@ -3,7 +3,7 @@ run-name: ${{ gitea.actor }} pushed to ${{ gitea.repository }}:${{ gitea.ref_nam
 on: [push, workflow_call]
 jobs:
   buildamd64:
-    if: gitea.repository_owner == 'NephNET'
+    if: gitea.repository_owner == 'NephNET' && !contains(github.event.head_commit.message, '#noci')
     runs-on: nephnet
     steps:
       - name: Checkout Repository
@@ -20,7 +20,7 @@ jobs:
           title: "Container Build (X86_64)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_BUILD }}
   buildarm64:
-    if: gitea.repository_owner == 'NephNET'
+    if: gitea.repository_owner == 'NephNET' && !contains(github.event.head_commit.message, '#noci')
     runs-on: rpi4
     steps:
       - name: Checkout Repository
