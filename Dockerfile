@@ -1,4 +1,4 @@
-FROM nephatrine/nxbuilder:nodejs AS builder1
+FROM nephatrine/nxbuilder:alpine AS builder1
 
 ARG GITEA_VERSION=v1.19.1
 RUN git -C /root clone -b "$GITEA_VERSION" --single-branch --depth=1 https://github.com/go-gitea/gitea.git
