@@ -11,7 +11,7 @@ FROM nephatrine/nxbuilder:golang AS builder2
 
 COPY --from=builder1 /root/gitea/ /root/gitea/
 
-ARG GITEA_VERSION=v1.19.1
+ARG GITEA_VERSION=v1.20.0-rc0
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
 RUN echo "====== COMPILE GITEA ======" \
  && cd /root/gitea && make backend
