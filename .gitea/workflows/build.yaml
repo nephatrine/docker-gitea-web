@@ -67,7 +67,6 @@ jobs:
           docker manifest create code.nephatrine.net/nephnet/gitea-web:master --amend code.nephatrine.net/nephnet/gitea-web:master-amd64 --amend code.nephatrine.net/nephnet/gitea-web:master-arm64v8
           docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:master
   publish_amd64:
-    if: gitea.ref_name == 'master'
     needs: [build_amd64]
     runs-on: nephnet-amd64
     steps:
@@ -96,7 +95,6 @@ jobs:
           nodetail: true
           webhook: ${{ secrets.DISCORD_WEBHOOK_PACKAGE }}
   publish_arm64:
-    if: gitea.ref_name == 'master'
     needs: [build_arm64]
     runs-on: nephnet-arm64
     steps:
