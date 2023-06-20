@@ -1,0 +1,17 @@
+services:
+  gitea:
+    build: .
+    container_name: gitea
+    environment:
+      TZ: America/New_York
+      PUID: 1000
+      PGID: 1000
+      B_MODULI: 4096
+      B_DSA: 1024
+      B_RSA: 4096
+      B_ECDSA: 384
+    ports:
+      - "3000:3000/tcp"
+      - "22:22/tcp"
+    volumes:
+      - /mnt/containers/gitea:/mnt/config

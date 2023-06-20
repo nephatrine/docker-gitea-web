@@ -7,78 +7,50 @@
 This docker image contains a Gitea server to self-host your own git
 repositories.
 
+The `latest` tag points to version `1.20.0-rc0` and this is the only image
+actively being updated. There are tags for older versions, but these may no
+longer be using the latest Alpine version and packages.
+
 To secure this service, we suggest a separate reverse proxy server, such as an
 [NGINX](https://nginx.com/) container. Alternatively, Gitea does include
 built-in options for using your own SSL certificates or using an ACME service
 such as LetsEncrypt.
 
-- [Alpine Linux](https://alpinelinux.org/) w/ [S6 Overlay](https://github.com/just-containers/s6-overlay)
-- [Gitea](https://gitea.io/en-us/) w/ [OpenSSH](https://openssh.com/) & [SQLite](https://www.sqlite.org/)
+## Docker-Compose
 
-You can spin up a quick temporary test container like this:
+This is an example docker-compose file:
 
-~~~
-docker run --rm -p 3000:3000 -it nephatrine/gitea-web:latest /bin/bash
-~~~
+```yaml
+services:
+  gitea:
+    image: nephatrine/gitea-web:latest
+    container_name: gitea
+    environment:
+      TZ: America/New_York
+      PUID: 1000
+      PGID: 1000
+      B_MODULI: 4096
+      B_DSA: 1024
+      B_RSA: 4096
+      B_ECDSA: 384
+    ports:
+      - "3000:3000/tcp"
+      - "22:22/tcp"
+    volumes:
+      - /mnt/containers/gitea:/mnt/config
+```
 
 When starting the container for the first time, sshd startup might take a
 **considerable** amount of time to create the DH moduli. You can reduce this
-time in two ways:
+time by providing a precomputed moduli at `/mnt/config/etc/ssh/moduli`.
 
-- Provide your own precomputed moduli at ``/mnt/config/etc/ssh/moduli``.
-- Decrease the moduli bit size using ``B_MODULI`` variable.
+## Server Configuration
 
-## Docker Tags
+There are two important configuration files you need to be aware of and
+potentially customize.
 
-- **nephatrine/gitea-web:latest**: Gitea v1.20.0-rc0 / Alpine Latest
+- `/mnt/config/etc/gitea.ini`
+- `/mnt/config/etc/ssh/sshd_config`
 
-## Configuration Variables
-
-You can set these parameters using the syntax ``-e "VARNAME=VALUE"`` on your
-``docker run`` command. Some of these may only be used during initial
-configuration and further changes may need to be made in the generated
-configuration files.
-
-- ``B_MODULI``: Default SSH Moduli Size (*4096*)
-- ``B_DSA``: Default DSA Key Size (*1024*)
-- ``B_RSA``: Default RSA Key Size (*4096*)
-- ``B_ECDSA``: Default ECDSA Key Size (*384*)
-- ``PUID``: Mount Owner UID (*1000*)
-- ``PGID``: Mount Owner GID (*100*)
-- ``TZ``: System Timezone (*America/New_York*)
-
-## Persistent Mounts
-
-You can provide a persistent mountpoint using the ``-v /host/path:/container/path``
-syntax. These mountpoints are intended to house important configuration files,
-logs, and application state (e.g. databases) so they are not lost on image
-update.
-
-- ``/mnt/config``: Persistent Data.
-
-Do not share ``/mnt/config`` volumes between multiple containers as they may
-interfere with the operation of one another.
-
-You can perform some basic configuration of the container using the files and
-directories listed below.
-
-- ``/mnt/config/etc/crontabs/<user>``: User Crontabs. [*]
-- ``/mnt/config/etc/gitea.ini``: Gitea Configuration. [*]
-- ``/mnt/config/etc/logrotate.conf``: Logrotate Global Configuration.
-- ``/mnt/config/etc/logrotate.d/``: Logrotate Additional Configuration.
-- ``/mnt/config/etc/ssh/moduli``: SSH Diffie-Hellman Moduli. [*]
-- ``/mnt/config/etc/ssh/ssh_host_<algo>_key``: SSH Server Keys. [*]
-- ``/mnt/config/etc/ssh/sshd_config``: SSH Server Configuration. [*]
-- ``/mnt/config/www/gitea/``: Gitea Customization Directory.
-
-**[*] Changes to some configuration files may require service restart to take
-immediate effect.**
-
-## Network Services
-
-This container runs network services that are intended to be exposed outside
-the container. You can map these to host ports using the ``-p HOST:CONTAINER``
-or ``-p HOST:CONTAINER/PROTOCOL`` syntax.
-
-- ``22/tcp``: SSH Server. This is the optional SSH server.
-- ``3000/tcp``: Gitea Server. This is the web server.
+Modifications to these files will require a service restart to pull in the
+changes made.
