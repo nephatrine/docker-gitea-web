@@ -1,9 +1,7 @@
 FROM nephatrine/nxbuilder:alpine AS builder1
 
-ARG GITEA_VERSION=v1.20.0-rc0
+ARG GITEA_VERSION=v1.20.0-rc2
 RUN git -C /root clone -b "$GITEA_VERSION" --single-branch --depth=1 https://github.com/go-gitea/gitea.git
-RUN sed -i 's~rpm/{{$.PackageDescriptor.Owner.LowerName}}.repo~rpm.repo~g' /root/gitea/templates/package/content/rpm.tmpl
-RUN sed -i 's~refName.String()~refName.ShortName()~g' /root/gitea/routers/api/actions/runner/utils.go
 
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
 RUN echo "====== COMPILE GITEA ======" \
@@ -11,7 +9,7 @@ RUN echo "====== COMPILE GITEA ======" \
 
 FROM nephatrine/nxbuilder:golang AS builder2
 
-ARG GITEA_VERSION=v1.20.0-rc0
+ARG GITEA_VERSION=v1.20.0-rc2
 COPY --from=builder1 /root/gitea/ /root/gitea/
 
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
