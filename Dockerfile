@@ -5,7 +5,7 @@ RUN git -C /root clone -b "$GITEA_VERSION" --single-branch --depth=1 https://git
 
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
 RUN echo "====== COMPILE GITEA ======" \
- && cd /root/gitea && make frontend
+ && cd /root/gitea && make -j$(( $(getconf _NPROCESSORS_ONLN) / 2 + 1 )) frontend
 
 FROM nephatrine/nxbuilder:golang AS builder2
 
