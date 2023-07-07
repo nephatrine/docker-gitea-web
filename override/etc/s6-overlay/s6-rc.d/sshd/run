@@ -17,7 +17,7 @@ fi
 
 # Create SSH Keys
 
-if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_key'; then
+if /bin/grep -Ev '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_key'; then
   if [[ ! -f /mnt/config/etc/ssh/ssh_host_key ]]; then
     /usr/bin/ssh-keygen -t rsa1 -f /etc/ssh/ssh_host_key -N ''
     /bin/cp /etc/ssh/ssh_host_key* /mnt/config/etc/ssh/
@@ -30,9 +30,9 @@ if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/s
   fi
 fi
 
-if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_dsa_key'; then
+if /bin/grep -Ev '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_dsa_key'; then
   if [[ ! -f /mnt/config/etc/ssh/ssh_host_dsa_key ]]; then
-    /usr/bin/ssh-keygen -t dsa -b ${B_DSA} -f /etc/ssh/ssh_host_dsa_key -N ''
+    /usr/bin/ssh-keygen -t dsa -b "${B_DSA}" -f /etc/ssh/ssh_host_dsa_key -N ''
     /bin/cp /etc/ssh/ssh_host_dsa_key* /mnt/config/etc/ssh/
     /bin/chown guardian:users /mnt/config/etc/ssh/ssh_host_dsa_key*
   fi
@@ -43,10 +43,10 @@ if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/s
   fi
 fi
 
-if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_rsa_key'; then
+if /bin/grep -Ev '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_rsa_key'; then
   echo "USING RSA"
   if [[ ! -f /mnt/config/etc/ssh/ssh_host_rsa_key ]]; then
-    /usr/bin/ssh-keygen -t rsa -b ${B_RSA} -f /etc/ssh/ssh_host_rsa_key -N ''
+    /usr/bin/ssh-keygen -t rsa -b "${B_RSA}" -f /etc/ssh/ssh_host_rsa_key -N ''
     /bin/cp /etc/ssh/ssh_host_rsa_key* /mnt/config/etc/ssh/
     /bin/chown guardian:users /mnt/config/etc/ssh/ssh_host_rsa_key*
   fi
@@ -57,9 +57,9 @@ if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/s
   fi
 fi
 
-if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_ecdsa_key'; then
+if /bin/grep -Ev '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_ecdsa_key'; then
   if [[ ! -f /mnt/config/etc/ssh/ssh_host_ecdsa_key ]]; then
-    /usr/bin/ssh-keygen -t ecdsa -b ${B_ECDSA} -f /etc/ssh/ssh_host_ecdsa_key -N ''
+    /usr/bin/ssh-keygen -t ecdsa -b "${B_ECDSA}" -f /etc/ssh/ssh_host_ecdsa_key -N ''
     /bin/cp /etc/ssh/ssh_host_ecdsa_key* /mnt/config/etc/ssh/
     /bin/chown guardian:users /mnt/config/etc/ssh/ssh_host_ecdsa_key*
   fi
@@ -70,7 +70,7 @@ if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/s
   fi
 fi
 
-if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_ed25519_key'; then
+if /bin/grep -Ev '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_ed25519_key'; then
   if [[ ! -f /mnt/config/etc/ssh/ssh_host_ed25519_key ]]; then
     /usr/bin/ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ''
     /bin/cp /etc/ssh/ssh_host_ed25519_key* /mnt/config/etc/ssh/
@@ -84,7 +84,7 @@ if /bin/egrep -v '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/s
 fi
 
 if [[ ! -f /mnt/config/etc/ssh/moduli ]]; then
-  /usr/bin/ssh-keygen -M generate -O bits=${B_MODULI} /etc/ssh/moduli.candidates \
+  /usr/bin/ssh-keygen -M generate -O bits="${B_MODULI}" /etc/ssh/moduli.candidates \
   && /usr/bin/ssh-keygen -M screen -f /etc/ssh/moduli.candidates /etc/ssh/moduli.safe \
   && /bin/mv /etc/ssh/moduli.safe /etc/ssh/moduli
   /bin/cp /etc/ssh/moduli /mnt/config/etc/ssh/moduli
@@ -106,10 +106,10 @@ fi
 # Start Service
 
 if ! /usr/bin/pgrep sshd >/dev/null; then
-  exec /usr/sbin/sshd -E /mnt/config/log/sshd.log -f /mnt/config/etc/ssh/sshd_config;
-  sleep 5
+  /usr/sbin/sshd -E /mnt/config/log/sshd.log -f /mnt/config/etc/ssh/sshd_config;
+  /bin/sleep 5
 fi
 
 while /usr/bin/pgrep sshd >/dev/null; do
-  sleep 60
+  /bin/sleep 60
 done

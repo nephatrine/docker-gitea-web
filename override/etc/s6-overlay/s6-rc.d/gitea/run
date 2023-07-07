@@ -1,30 +1,24 @@
-#!/bin/bash
+#!/bin/sh
 
 export HOME=/mnt/config/home
-cd /mnt/config/home
 
-# Build Config
+cd /mnt/config/home || exit 1
 
-if [[ ! -d /mnt/config/etc ]]; then
+# Copy Config
+
+if [ ! -d /mnt/config/etc ]; then
   /command/s6-setuidgid guardian /bin/mkdir -p /mnt/config/etc
 fi
-if [[ -f /mnt/config/etc/gitea/app.ini && ! -f /mnt/config/etc/gitea.ini ]]; then
-  /command/s6-setuidgid guardian /bin/mv /mnt/config/etc/gitea/app.ini /mnt/config/etc/gitea.ini
-  if [[ -f /mnt/config/home/.ssh/authorized_keys ]]; then
-    /command/s6-setuidgid guardian /bin/sed -i 's~/mnt/config/etc/gitea/app.ini~/mnt/config/etc/gitea.ini~g' /mnt/config/home/.ssh/authorized_keys
+if [ -d /mnt/config/etc ]; then
+  if [ ! -f /mnt/config/etc/gitea.ini ]; then
+    /command/s6-setuidgid guardian /bin/cp /etc/gitea.ini /mnt/config/etc/gitea.ini
   fi
-  if [[ -d /mnt/config/data/git/repos ]]; then
-    /usr/bin/find /mnt/config/data/git/repos -name hooks -type d | xargs -n1 -I[] /command/s6-setuidgid guardian /bin/sed -i 's~/mnt/config/etc/gitea/app.ini~/mnt/config/etc/gitea.ini~g' []/pre-receive.d/gitea []/post-receive.d/gitea []/update.d/gitea
-  fi
+  /command/s6-setuidgid guardian /bin/cp /etc/gitea.ini.sample /mnt/config/etc/gitea.ini.sample
 fi
-if [[ ! -f /mnt/config/etc/gitea.ini ]]; then
-  /command/s6-setuidgid guardian /bin/cp /etc/gitea.ini /mnt/config/etc/gitea.ini
-fi
-/command/s6-setuidgid guardian /bin/cp /etc/gitea.ini.sample /mnt/config/etc/gitea.ini.sample
 
 # Ensure Git Hooks Executable
 
-if [[ -d /mnt/config/data/git ]]; then
+if [ -d /mnt/config/data/git ]; then
   /usr/bin/find /mnt/config/data/git/ -name hooks -type d | /usr/bin/xargs -n1 -I[] /usr/bin/find [] -type f -exec /bin/chmod 0700 {} \;
 fi
 
