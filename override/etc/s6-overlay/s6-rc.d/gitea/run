@@ -24,4 +24,10 @@ fi
 
 # Start Service
 
-GITEA_CUSTOM=/mnt/config/www/gitea USER=guardian exec /command/s6-setuidgid guardian /usr/bin/gitea web --config /mnt/config/etc/gitea.ini --pid /tmp/gitea.pid;
+if [[ -f /mnt/config/etc/gitea.ini ]]; then
+  GITEA_CUSTOM=/mnt/config/www/gitea USER=guardian exec /command/s6-setuidgid guardian /usr/bin/gitea web --config /mnt/config/etc/gitea.ini --pid /tmp/gitea.pid;
+else
+  /bin/echo "** no config exists **"
+  /bin/sleep 300
+  exit 0
+fi
