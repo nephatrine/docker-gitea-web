@@ -7,7 +7,7 @@
 This docker image contains a Gitea server to self-host your own git
 repositories.
 
-The `latest` tag points to version `1.20.0-rc2` and this is the only image
+The `latest` tag points to version `1.20.3` and this is the only image
 actively being updated. There are tags for older versions, but these may no
 longer be using the latest Alpine version and packages.
 
