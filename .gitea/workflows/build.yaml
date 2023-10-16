@@ -108,6 +108,7 @@ jobs:
         with:
           base-image: nephatrine/alpine-s6:latest
           image: nephatrine/gitea-web:latest
+          platforms: linux/amd64
       - name: Docker Login
         uses: https://github.com/docker/login-action@v3
         with:
