@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2019 - 2023 Daniel Wolf <nephatrine@gmail.com>
+#
+# SPDX-License-Identifier: ISC
+
 FROM nephatrine/nxbuilder:alpine AS builder1
 
 ARG GITEA_VERSION=v1.21.0-rc1

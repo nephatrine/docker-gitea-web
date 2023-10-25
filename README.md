@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2019 - 2023 Daniel Wolf <nephatrine@gmail.com>
+
+SPDX-License-Identifier: ISC
+-->
+
 [Git](https://code.nephatrine.net/NephNET/docker-gitea-web/src/branch/master) |
 [Docker](https://hub.docker.com/r/nephatrine/gitea-web/) |
 [unRAID](https://code.nephatrine.net/NephNET/unraid-containers)
