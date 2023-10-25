@@ -8,7 +8,7 @@ ARG GITEA_VERSION=v1.21.0-rc1
 RUN git -C /root clone -b "$GITEA_VERSION" --single-branch --depth=1 https://github.com/go-gitea/gitea.git
 
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
-RUN echo "====== COMPILE GITEA ======" \
+RUN echo "====== COMPILE GITEA FRONTEND ======" \
  && cd /root/gitea && make -j$(( $(getconf _NPROCESSORS_ONLN) / 2 + 1 )) frontend
 
 FROM nephatrine/nxbuilder:golang AS builder2
@@ -17,7 +17,7 @@ ARG GITEA_VERSION=v1.21.0-rc1
 COPY --from=builder1 /root/gitea/ /root/gitea/
 
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
-RUN echo "====== COMPILE GITEA ======" \
+RUN echo "====== COMPILE GITEA BACKEND ======" \
  && cd /root/gitea && make backend
 
 FROM nephatrine/alpine-s6:latest
