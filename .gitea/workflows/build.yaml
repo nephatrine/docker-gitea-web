@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Daniel Wolf <nephatrine@gmail.com>
+#
+# SPDX-License-Identifier: ISC
+
 name: Build Container Image
 run-name: ${{ gitea.actor }} pushed to ${{ gitea.repository }}:${{ gitea.ref_name }}
 on:
@@ -15,20 +19,19 @@ jobs:
         run: |
           export BRANCH=${GITHUB_REF##*/}
           export BRANCH=${BRANCH:-master}
-          docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-jscache --target builder1 ${{ gitea.workspace }}
-          docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-gocache --target builder2 ${{ gitea.workspace }}
+          docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-amd64-jscache --target builder1 ${{ gitea.workspace }}
+          docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-amd64-gocache --target builder2 ${{ gitea.workspace }}
           docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-amd64 ${{ gitea.workspace }}
       - name: Docker Login
         uses: https://github.com/docker/login-action@v3
+        if: gitea.ref_name == 'master' || gitea.ref_name == ''
         with:
           registry: code.nephatrine.net
           username: ${{ gitea.actor }}
           password: ${{ secrets.PACKAGER_TOKEN }}
       - name: Docker Push
-        run: |
-          export BRANCH=${GITHUB_REF##*/}
-          export BRANCH=${BRANCH:-master}
-          docker push code.nephatrine.net/nephnet/gitea-web:${BRANCH}-amd64
+        if: gitea.ref_name == 'master' || gitea.ref_name == ''
+        run: docker push code.nephatrine.net/nephnet/gitea-web:master-amd64
       - name: Notify Discord
         uses: https://github.com/sarisia/actions-status-discord@v1
         if: always()
@@ -45,20 +48,19 @@ jobs:
         run: |
           export BRANCH=${GITHUB_REF##*/}
           export BRANCH=${BRANCH:-master}
-          docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-jscache --target builder1 ${{ gitea.workspace }}
-          docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-gocache --target builder2 ${{ gitea.workspace }}
+          docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-amd64-jscache --target builder1 ${{ gitea.workspace }}
+          docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-amd64-gocache --target builder2 ${{ gitea.workspace }}
           docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-arm64v8 ${{ gitea.workspace }}
       - name: Docker Login
         uses: https://github.com/docker/login-action@v3
+        if: gitea.ref_name == 'master' || gitea.ref_name == ''
         with:
           registry: code.nephatrine.net
           username: ${{ gitea.actor }}
           password: ${{ secrets.PACKAGER_TOKEN }}
       - name: Docker Push
-        run: |
-          export BRANCH=${GITHUB_REF##*/}
-          export BRANCH=${BRANCH:-master}
-          docker push code.nephatrine.net/nephnet/gitea-web:${BRANCH}-arm64v8
+        if: gitea.ref_name == 'master' || gitea.ref_name == ''
+        run: docker push code.nephatrine.net/nephnet/gitea-web:master-arm64v8
       - name: Notify Discord
         uses: https://github.com/sarisia/actions-status-discord@v1
         if: always()
@@ -66,6 +68,7 @@ jobs:
           title: "Container Build (AARCH64)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_BUILD }}
   build_manifest:
+    if: gitea.ref_name == 'master' || gitea.ref_name == ''
     needs: [build_amd64, build_arm64]
     runs-on: nephnet
     steps:
@@ -77,10 +80,8 @@ jobs:
           password: ${{ secrets.PACKAGER_TOKEN }}
       - name: Docker Manifest
         run: |
-          export BRANCH=${GITHUB_REF##*/}
-          export BRANCH=${BRANCH:-master}
-          docker manifest create code.nephatrine.net/nephnet/gitea-web:${BRANCH} --amend code.nephatrine.net/nephnet/gitea-web:${BRANCH}-amd64 --amend code.nephatrine.net/nephnet/gitea-web:${BRANCH}-arm64v8
-          docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:${BRANCH}
+          docker manifest create code.nephatrine.net/nephnet/gitea-web:latest --amend code.nephatrine.net/nephnet/gitea-web:${BRANCH}-amd64 --amend code.nephatrine.net/nephnet/gitea-web:${BRANCH}-arm64v8
+          docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:latest
   publish_amd64:
     if: gitea.ref_name == 'master' || gitea.ref_name == ''
     needs: [build_amd64]
@@ -93,8 +94,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASS }}
       - name: Docker Push
         run: |
+          docker pull code.nephatrine.net/nephnet/gitea-web:master-amd64
           docker tag code.nephatrine.net/nephnet/gitea-web:master-amd64 nephatrine/gitea-web:latest-amd64
           docker push nephatrine/gitea-web:latest-amd64
+          docker rmi nephatrine/gitea-web:latest-amd64
   publish_arm64:
     if: gitea.ref_name == 'master' || gitea.ref_name == ''
     needs: [build_arm64]
@@ -107,8 +110,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASS }}
       - name: Docker Push
         run: |
+          docker pull code.nephatrine.net/nephnet/gitea-web:master-arm64v8
           docker tag code.nephatrine.net/nephnet/gitea-web:master-arm64v8 nephatrine/gitea-web:latest-arm64v8
           docker push nephatrine/gitea-web:latest-arm64v8
+          docker rmi nephatrine/gitea-web:latest-arm64v8
   publish_manifest:
     needs: [publish_amd64, publish_arm64]
     runs-on: nephnet
