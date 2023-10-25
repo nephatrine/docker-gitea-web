@@ -48,8 +48,8 @@ jobs:
         run: |
           export BRANCH=${GITHUB_REF##*/}
           export BRANCH=${BRANCH:-master}
-          docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-amd64-jscache --target builder1 ${{ gitea.workspace }}
-          docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-amd64-gocache --target builder2 ${{ gitea.workspace }}
+          docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-arm64v8-jscache --target builder1 ${{ gitea.workspace }}
+          docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-arm64v8-gocache --target builder2 ${{ gitea.workspace }}
           docker build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-arm64v8 ${{ gitea.workspace }}
       - name: Docker Login
         uses: https://github.com/docker/login-action@v3
@@ -80,7 +80,7 @@ jobs:
           password: ${{ secrets.PACKAGER_TOKEN }}
       - name: Docker Manifest
         run: |
-          docker manifest create code.nephatrine.net/nephnet/gitea-web:latest --amend code.nephatrine.net/nephnet/gitea-web:${BRANCH}-amd64 --amend code.nephatrine.net/nephnet/gitea-web:${BRANCH}-arm64v8
+          docker manifest create code.nephatrine.net/nephnet/gitea-web:latest --amend code.nephatrine.net/nephnet/gitea-web:master-amd64 --amend code.nephatrine.net/nephnet/gitea-web:master-arm64v8
           docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:latest
   publish_amd64:
     if: gitea.ref_name == 'master' || gitea.ref_name == ''
