@@ -1,3 +1,6 @@
-sign-build.sh
-test-build.sh
-fix-perms.sh
+# SPDX-FileCopyrightText: 2019 - 2023 Daniel Wolf <nephatrine@gmail.com>
+#
+# SPDX-License-Identifier: ISC
+
+app.*.ini
+configget.sh
