@@ -4,7 +4,7 @@
 
 FROM nephatrine/nxbuilder:alpine AS builder1
 
-ARG GITEA_VERSION=v1.21.0-rc1
+ARG GITEA_VERSION=v1.21.0
 RUN git -C /root clone -b "$GITEA_VERSION" --single-branch --depth=1 https://github.com/go-gitea/gitea.git
 
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
