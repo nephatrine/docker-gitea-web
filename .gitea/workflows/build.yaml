@@ -223,11 +223,11 @@ jobs:
           password: ${{ secrets.DOCKER_PASS }}
       - name: Docker Manifest
         run: |
-          docker manifest create nephatrine/gitea-web:1.21.1 --amend nephatrine/gitea-web:latest-amd64 --amend nephatrine/gitea-web:latest-i386 --amend nephatrine/gitea-web:latest-arm64v8 --amend nephatrine/gitea-web:latest-armv7
+          docker manifest create nephatrine/gitea-web:1.21.7 --amend nephatrine/gitea-web:latest-amd64 --amend nephatrine/gitea-web:latest-i386 --amend nephatrine/gitea-web:latest-arm64v8 --amend nephatrine/gitea-web:latest-armv7
           docker manifest create nephatrine/gitea-web:1.21 --amend nephatrine/gitea-web:latest-amd64 --amend nephatrine/gitea-web:latest-i386 --amend nephatrine/gitea-web:latest-arm64v8 --amend nephatrine/gitea-web:latest-armv7
           docker manifest create nephatrine/gitea-web:1 --amend nephatrine/gitea-web:latest-amd64 --amend nephatrine/gitea-web:latest-i386 --amend nephatrine/gitea-web:latest-arm64v8 --amend nephatrine/gitea-web:latest-armv7
           docker manifest create nephatrine/gitea-web:latest --amend nephatrine/gitea-web:latest-amd64 --amend nephatrine/gitea-web:latest-i386 --amend nephatrine/gitea-web:latest-arm64v8 --amend nephatrine/gitea-web:latest-armv7
-          docker manifest push --purge nephatrine/gitea-web:1.21.1
+          docker manifest push --purge nephatrine/gitea-web:1.21.7
           docker manifest push --purge nephatrine/gitea-web:1.21
           docker manifest push --purge nephatrine/gitea-web:1
           docker manifest push --purge nephatrine/gitea-web:latest
