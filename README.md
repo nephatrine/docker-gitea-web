@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2019 - 2023 Daniel Wolf <nephatrine@gmail.com>
+SPDX-FileCopyrightText: 2019 - 2024 Daniel Wolf <nephatrine@gmail.com>
 
 SPDX-License-Identifier: ISC
 -->
@@ -13,7 +13,7 @@ SPDX-License-Identifier: ISC
 This docker image contains a Gitea server to self-host your own git
 repositories.
 
-The `latest` tag points to version `1.21.1` and this is the only image
+The `latest` tag points to version `1.21.7` and this is the only image
 actively being updated. There are tags for older versions, but these may no
 longer be using the latest Alpine version and packages.
 

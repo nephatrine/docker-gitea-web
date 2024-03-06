@@ -1,10 +1,10 @@
-# SPDX-FileCopyrightText: 2019 - 2023 Daniel Wolf <nephatrine@gmail.com>
+# SPDX-FileCopyrightText: 2019 - 2024 Daniel Wolf <nephatrine@gmail.com>
 #
 # SPDX-License-Identifier: ISC
 
-FROM nephatrine/nxbuilder:alpine AS builder1
+FROM code.nephatrine.net/nephnet/nxb-alpine:latest AS builder1
 
-ARG GITEA_VERSION=v1.21.6
+ARG GITEA_VERSION=v1.21.7
 RUN git -C /root clone -b "$GITEA_VERSION" --single-branch --depth=1 https://github.com/go-gitea/gitea.git
 
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
@@ -13,17 +13,16 @@ RUN echo "====== COMPILE GITEA FRONTEND ======" \
  && sed -i 's~npm install~node --dns-result-order=ipv4first /usr/bin/npm install~g' Makefile \
  && make -j$(( $(getconf _NPROCESSORS_ONLN) / 2 + 1 )) frontend
 
-FROM nephatrine/nxbuilder:golang AS builder2
+FROM code.nephatrine.net/nephnet/nxb-golang:latest AS builder2
 
-ARG GITEA_VERSION=v1.21.6
+ARG GITEA_VERSION=v1.21.7
 COPY --from=builder1 /root/gitea/ /root/gitea/
 
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
-ARG CGO_CFLAGS="-D_LARGEFILE64_SOURCE"
 RUN echo "====== COMPILE GITEA BACKEND ======" \
  && cd /root/gitea && make backend
 
-FROM nephatrine/alpine-s6:latest
+FROM code.nephatrine.net/nephnet/alpine-s6:latest
 LABEL maintainer="Daniel Wolf <nephatrine@gmail.com>"
 
 RUN echo "====== INSTALL PACKAGES ======" \
