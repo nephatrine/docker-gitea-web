@@ -10,8 +10,7 @@ RUN git -C /root clone -b "$GITEA_VERSION" --single-branch --depth=1 https://git
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
 RUN echo "====== COMPILE GITEA FRONTEND ======" \
  && cd /root/gitea \
- && sed -i 's~npm install~node --dns-result-order=ipv4first /usr/bin/npm install~g' Makefile \
- && make -j$(( $(getconf _NPROCESSORS_ONLN) / 2 + 1 )) frontend
+ && make frontend
 
 FROM code.nephatrine.net/nephnet/nxb-golang:latest AS builder2
 
