@@ -44,7 +44,7 @@ jobs:
           docker buildx build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-latest-amd64 --platform linux/amd64 ${{ gitea.workspace }}
       - name: Notify Discord
         uses: https://github.com/sarisia/actions-status-discord@v1
-        if: failure()
+        if: failure() || gitea.event_name != 'schedule'
         with:
           title: "Container Build (X86_64)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_BUILD }}
@@ -83,7 +83,7 @@ jobs:
           docker buildx build --pull -t code.nephatrine.net/nephnet/gitea-web:${BRANCH}-latest-arm64 --platform linux/arm64/v8 ${{ gitea.workspace }}
       - name: Notify Discord
         uses: https://github.com/sarisia/actions-status-discord@v1
-        if: failure()
+        if: failure() || gitea.event_name != 'schedule'
         with:
           title: "Container Build (AARCH64)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_BUILD }}
