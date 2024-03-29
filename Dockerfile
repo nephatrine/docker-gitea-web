@@ -6,19 +6,21 @@ FROM code.nephatrine.net/nephnet/nxb-alpine:latest-golang AS builder
 
 ARG GITEA_VERSION=v1.21.10
 RUN git -C /root clone -b "$GITEA_VERSION" --single-branch --depth=1 https://github.com/go-gitea/gitea.git
+WORKDIR /root/gitea
 
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
-RUN echo "====== COMPILE GITEA FRONTEND ======" \
- && cd /root/gitea && make frontend
-RUN echo "====== COMPILE GITEA BACKEND ======" \
- && cd /root/gitea && make backend
+RUN make frontend && make backend
 
+# ------------------------------
+
+# hadolint ignore=DL3007
 FROM code.nephatrine.net/nephnet/alpine-s6:latest
 LABEL maintainer="Daniel Wolf <nephatrine@gmail.com>"
 
-RUN echo "====== INSTALL PACKAGES ======" \
+# hadolint ignore=DL3018
+RUN usermod -p '*' -s /bin/bash guardian \
  && apk add --no-cache git git-lfs openssh-server openssh-keygen sqlite \
- && usermod -p '*' -s /bin/bash guardian
+ && rm -rf /tmp/* /var/tmp/*
 
 COPY --from=builder /root/gitea/gitea /usr/bin/
 COPY --from=builder /root/gitea/custom/conf/app.example.ini /etc/gitea.ini.sample
