@@ -151,14 +151,14 @@ jobs:
           password: ${{ secrets.PACKAGER_TOKEN }}
       - name: Docker Manifest
         run: |
-          docker manifest create code.nephatrine.net/nephnet/gitea-web:latest --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
           docker manifest create code.nephatrine.net/nephnet/gitea-web:1.21.10 --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
           docker manifest create code.nephatrine.net/nephnet/gitea-web:1.21 --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
           docker manifest create code.nephatrine.net/nephnet/gitea-web:1 --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
-          docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:latest
+          docker manifest create code.nephatrine.net/nephnet/gitea-web:latest --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
           docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:1.21.10
           docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:1.21
           docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:1
+          docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:latest
       - name: Notify Discord
         uses: https://github.com/sarisia/actions-status-discord@v1
         if: failure()
@@ -177,14 +177,14 @@ jobs:
           password: ${{ secrets.DOCKER_PASS }}
       - name: Docker Manifest
         run: |
-          docker manifest create nephatrine/gitea-web:latest --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
           docker manifest create nephatrine/gitea-web:1.21.10 --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
           docker manifest create nephatrine/gitea-web:1.21 --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
           docker manifest create nephatrine/gitea-web:1 --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
-          docker manifest push --purge nephatrine/gitea-web:latest
+          docker manifest create nephatrine/gitea-web:latest --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
           docker manifest push --purge nephatrine/gitea-web:1.21.10
           docker manifest push --purge nephatrine/gitea-web:1.21
           docker manifest push --purge nephatrine/gitea-web:1
+          docker manifest push --purge nephatrine/gitea-web:latest
       - name: Notify Discord
         if: gitea.event_name != 'schedule'
         uses: https://github.com/sarisia/actions-status-discord@v1
