@@ -13,7 +13,7 @@ SPDX-License-Identifier: ISC
 This docker image contains a Gitea server to self-host your own git
 repositories.
 
-The `latest` tag points to version `1.21.11` and this is the only image
+The `latest` tag points to version `1.22.1` and this is the only image
 actively being updated. There are tags for older versions, but these may no
 longer be using the latest Alpine version and packages.
 

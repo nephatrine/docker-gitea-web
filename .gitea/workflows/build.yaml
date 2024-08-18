@@ -48,7 +48,7 @@ jobs:
         uses: https://github.com/sarisia/actions-status-discord@v1
         if: failure() || gitea.event_name != 'schedule'
         with:
-          title: "Container Build (X86_64; 1.21.11)"
+          title: "Container Build (X86_64; 1.22.1)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_BUILD }}
   push_amd64:
     if: gitea.ref_name == 'master' || gitea.ref_name == ''
@@ -107,7 +107,7 @@ jobs:
         uses: https://github.com/sarisia/actions-status-discord@v1
         if: failure()
         with:
-          title: "Container Build (AARCH64; 1.21.11)"
+          title: "Container Build (AARCH64; 1.22.1)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_BUILD }}
   push_arm64:
     if: gitea.ref_name == 'master' || gitea.ref_name == ''
@@ -141,23 +141,23 @@ jobs:
           password: ${{ secrets.PACKAGER_TOKEN }}
       - name: Docker Manifest
         run: |
-          docker manifest rm code.nephatrine.net/nephnet/gitea-web:1.21.11 || true
-          docker manifest rm code.nephatrine.net/nephnet/gitea-web:1.21 || true
+          docker manifest rm code.nephatrine.net/nephnet/gitea-web:1.22.1 || true
+          docker manifest rm code.nephatrine.net/nephnet/gitea-web:1.22 || true
           docker manifest rm code.nephatrine.net/nephnet/gitea-web:1 || true
           docker manifest rm code.nephatrine.net/nephnet/gitea-web:latest || true
-          docker manifest create code.nephatrine.net/nephnet/gitea-web:1.21.11 --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
-          docker manifest create code.nephatrine.net/nephnet/gitea-web:1.21 --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
+          docker manifest create code.nephatrine.net/nephnet/gitea-web:1.22.1 --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
+          docker manifest create code.nephatrine.net/nephnet/gitea-web:1.22 --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
           docker manifest create code.nephatrine.net/nephnet/gitea-web:1 --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
           docker manifest create code.nephatrine.net/nephnet/gitea-web:latest --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
-          docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:1.21.11
-          docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:1.21
+          docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:1.22.1
+          docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:1.22
           docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:1
           docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:latest
       - name: Notify Discord
         uses: https://github.com/sarisia/actions-status-discord@v1
         if: failure()
         with:
-          title: "Container Publish (1.21.11)"
+          title: "Container Publish (1.22.1)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_PACKAGE }}
   push:
     needs: [push_amd64, push_arm64]
@@ -171,23 +171,23 @@ jobs:
           password: ${{ secrets.DOCKER_PASS }}
       - name: Docker Manifest
         run: |
-          docker manifest rm nephatrine/gitea-web:1.21.11 || true
-          docker manifest rm nephatrine/gitea-web:1.21 || true
+          docker manifest rm nephatrine/gitea-web:1.22.1 || true
+          docker manifest rm nephatrine/gitea-web:1.22 || true
           docker manifest rm nephatrine/gitea-web:1 || true
           docker manifest rm nephatrine/gitea-web:latest || true
-          docker manifest create nephatrine/gitea-web:1.21.11 --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
-          docker manifest create nephatrine/gitea-web:1.21 --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
+          docker manifest create nephatrine/gitea-web:1.22.1 --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
+          docker manifest create nephatrine/gitea-web:1.22 --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
           docker manifest create nephatrine/gitea-web:1 --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
           docker manifest create nephatrine/gitea-web:latest --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
-          docker manifest push --purge nephatrine/gitea-web:1.21.11
-          docker manifest push --purge nephatrine/gitea-web:1.21
+          docker manifest push --purge nephatrine/gitea-web:1.22.1
+          docker manifest push --purge nephatrine/gitea-web:1.22
           docker manifest push --purge nephatrine/gitea-web:1
           docker manifest push --purge nephatrine/gitea-web:latest
       - name: Notify Discord
         if: gitea.event_name != 'schedule'
         uses: https://github.com/sarisia/actions-status-discord@v1
         with:
-          title: "DockerHub: gitea-web (1.21.11)"
+          title: "DockerHub: gitea-web (1.22.1)"
           description: "The container image was pushed to [DockerHub](https://hub.docker.com/repository/docker/nephatrine/gitea-web/general).\nPull `nephatrine/gitea-web:latest` for the newest image."
           nodetail: true
           webhook: ${{ secrets.DISCORD_WEBHOOK_PACKAGE }}
