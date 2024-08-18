@@ -141,6 +141,10 @@ jobs:
           password: ${{ secrets.PACKAGER_TOKEN }}
       - name: Docker Manifest
         run: |
+          docker manifest rm code.nephatrine.net/nephnet/gitea-web:1.21.11 || true
+          docker manifest rm code.nephatrine.net/nephnet/gitea-web:1.21 || true
+          docker manifest rm code.nephatrine.net/nephnet/gitea-web:1 || true
+          docker manifest rm code.nephatrine.net/nephnet/gitea-web:latest || true
           docker manifest create code.nephatrine.net/nephnet/gitea-web:1.21.11 --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
           docker manifest create code.nephatrine.net/nephnet/gitea-web:1.21 --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
           docker manifest create code.nephatrine.net/nephnet/gitea-web:1 --amend code.nephatrine.net/nephnet/amd64:gitea-web --amend code.nephatrine.net/nephnet/arm64:gitea-web
@@ -167,6 +171,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASS }}
       - name: Docker Manifest
         run: |
+          docker manifest rm nephatrine/gitea-web:1.21.11 || true
+          docker manifest rm nephatrine/gitea-web:1.21 || true
+          docker manifest rm nephatrine/gitea-web:1 || true
+          docker manifest rm nephatrine/gitea-web:latest || true
           docker manifest create nephatrine/gitea-web:1.21.11 --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
           docker manifest create nephatrine/gitea-web:1.21 --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
           docker manifest create nephatrine/gitea-web:1 --amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web
