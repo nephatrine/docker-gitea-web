@@ -4,7 +4,7 @@
 
 FROM code.nephatrine.net/nephnet/nxb-alpine:golang AS builder
 
-ARG GITEA_VERSION=v1.22.1
+ARG GITEA_VERSION=v1.22.2
 RUN git -C /root clone -b "$GITEA_VERSION" --single-branch --depth=1 https://github.com/go-gitea/gitea.git
 WORKDIR /root/gitea
 
