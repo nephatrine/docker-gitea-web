@@ -1,10 +1,10 @@
-# SPDX-FileCopyrightText: 2019 - 2024 Daniel Wolf <nephatrine@gmail.com>
+# SPDX-FileCopyrightText: 2019 - 2025 Daniel Wolf <nephatrine@gmail.com>
 #
 # SPDX-License-Identifier: ISC
 
 FROM code.nephatrine.net/nephnet/nxb-alpine:golang AS builder
 
-ARG GITEA_VERSION=v1.22.2
+ARG GITEA_VERSION=v1.22.6
 RUN git -C /root clone -b "$GITEA_VERSION" --single-branch --depth=1 https://github.com/go-gitea/gitea.git
 WORKDIR /root/gitea
 
