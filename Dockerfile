@@ -2,9 +2,9 @@
 #
 # SPDX-License-Identifier: ISC
 
-FROM code.nephatrine.net/nephnet/nxb-alpine:3.19-golang AS builder
+FROM code.nephatrine.net/nephnet/nxb-alpine:golang AS builder
 
-ARG GITEA_VERSION=v1.22.6
+ARG GITEA_VERSION=v1.23.6
 RUN git -C /root clone -b "$GITEA_VERSION" --single-branch --depth=1 https://github.com/go-gitea/gitea.git
 WORKDIR /root/gitea
 
