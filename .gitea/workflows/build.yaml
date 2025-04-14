@@ -421,7 +421,7 @@ jobs:
         id: manifest
         run: |
           export IMAGELIST="--amend code.nephatrine.net/nephhub/amd64:gitea-web --amend code.nephatrine.net/nephhub/ia32:gitea-web --amend code.nephatrine.net/nephhub/arm64:gitea-web --amend code.nephatrine.net/nephhub/arm32:gitea-web --amend code.nephatrine.net/nephhub/riscv64:gitea-web"
-          for manifestName in 1.23.6 1.23 1 latest; do docker manifest rm code.nephatrine.net/nephnet/gitea-web:${manifestName} || true; docker manifest create code.nephatrine.net/nephnet/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:${manifestName}; done
+          for manifestName in 1.23.7 1.23 1 latest; do docker manifest rm code.nephatrine.net/nephnet/gitea-web:${manifestName} || true; docker manifest create code.nephatrine.net/nephnet/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:${manifestName}; done
       - name: Wait to Retry
         if: steps.manifest.outcome != 'success'
         run: sleep 60
@@ -429,7 +429,7 @@ jobs:
         if: steps.manifest.outcome != 'success'
         run: |
           export IMAGELIST="--amend code.nephatrine.net/nephhub/amd64:gitea-web --amend code.nephatrine.net/nephhub/ia32:gitea-web --amend code.nephatrine.net/nephhub/arm64:gitea-web --amend code.nephatrine.net/nephhub/arm32:gitea-web --amend code.nephatrine.net/nephhub/riscv64:gitea-web"
-          for manifestName in 1.23.6 1.23 1 latest; do docker manifest rm code.nephatrine.net/nephnet/gitea-web:${manifestName} || true; docker manifest create code.nephatrine.net/nephnet/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:${manifestName}; done
+          for manifestName in 1.23.7 1.23 1 latest; do docker manifest rm code.nephatrine.net/nephnet/gitea-web:${manifestName} || true; docker manifest create code.nephatrine.net/nephnet/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:${manifestName}; done
       - name: Notify Discord
         continue-on-error: true
         uses: https://code.nephatrine.net/NephHub/actions-status-discord@v1
@@ -463,7 +463,7 @@ jobs:
         id: manifest
         run: |
           export IMAGELIST="--amend nephatrine/amd64:gitea-web --amend nephatrine/ia32:gitea-web --amend nephatrine/arm64:gitea-web --amend nephatrine/armv7:gitea-web --amend nephatrine/riscv64:gitea-web"
-          for manifestName in 1.23.6 1.23 1 latest; do docker manifest rm nephatrine/gitea-web:${manifestName} || true; docker manifest create nephatrine/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge nephatrine/gitea-web:${manifestName}; done
+          for manifestName in 1.23.7 1.23 1 latest; do docker manifest rm nephatrine/gitea-web:${manifestName} || true; docker manifest create nephatrine/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge nephatrine/gitea-web:${manifestName}; done
       - name: Wait to Retry
         if: steps.manifest.outcome != 'success'
         run: sleep 60
@@ -471,7 +471,7 @@ jobs:
         if: steps.manifest.outcome != 'success'
         run: |
           export IMAGELIST="--amend nephatrine/amd64:gitea-web --amend nephatrine/ia32:gitea-web --amend nephatrine/arm64:gitea-web --amend nephatrine/armv7:gitea-web --amend nephatrine/riscv64:gitea-web"
-          for manifestName in 1.23.6 1.23 1 latest; do docker manifest rm nephatrine/gitea-web:${manifestName} || true; docker manifest create nephatrine/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge nephatrine/gitea-web:${manifestName}; done
+          for manifestName in 1.23.7 1.23 1 latest; do docker manifest rm nephatrine/gitea-web:${manifestName} || true; docker manifest create nephatrine/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge nephatrine/gitea-web:${manifestName}; done
       - name: Notify Discord
         uses: https://code.nephatrine.net/NephHub/actions-status-discord@v1
         if: failure()
