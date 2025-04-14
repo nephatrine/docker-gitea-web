@@ -55,7 +55,7 @@ jobs:
         uses: https://code.nephatrine.net/NephHub/actions-status-discord@v1
         if: failure() || gitea.event_name != 'schedule'
         with:
-          title: "Container Build (X86_64; 1.23.6)"
+          title: "Container Build (X86_64; 1.23.7)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_BUILD }}
   push_amd64:
     needs: [build_amd64]
@@ -132,7 +132,7 @@ jobs:
         uses: https://code.nephatrine.net/NephHub/actions-status-discord@v1
         if: failure() || gitea.event_name != 'schedule'
         with:
-          title: "Container Build (I686; 1.23.6)"
+          title: "Container Build (I686; 1.23.7)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_BUILD }}
   push_i386:
     needs: [build_i386]
@@ -208,7 +208,7 @@ jobs:
         uses: https://github.com/sarisia/actions-status-discord@v1
         if: failure()
         with:
-          title: "Container Build (AARCH64; 1.23.6)"
+          title: "Container Build (AARCH64; 1.23.7)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_BUILD }}
   push_arm64:
     needs: [build_arm64]
@@ -284,7 +284,7 @@ jobs:
         uses: https://github.com/sarisia/actions-status-discord@v1
         if: failure()
         with:
-          title: "Container Build (ARMV7L; 1.23.6)"
+          title: "Container Build (ARMV7L; 1.23.7)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_BUILD }}
   push_armhf:
     needs: [build_armhf]
@@ -360,7 +360,7 @@ jobs:
         uses: https://github.com/sarisia/actions-status-discord@v1
         if: failure()
         with:
-          title: "Container Build (RISCV64; 1.23.6)"
+          title: "Container Build (RISCV64; 1.23.7)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_BUILD }}
   push_riscv64:
     needs: [build_riscv64]
@@ -435,7 +435,7 @@ jobs:
         uses: https://code.nephatrine.net/NephHub/actions-status-discord@v1
         if: failure() || gitea.event_name != 'schedule'
         with:
-          title: "Container Publish (1.23.6)"
+          title: "Container Publish (1.23.7)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_PACKAGE }}
   push:
     needs: [push_amd64, push_i386, push_arm64, push_armhf, push_riscv64]
@@ -476,7 +476,7 @@ jobs:
         uses: https://code.nephatrine.net/NephHub/actions-status-discord@v1
         if: failure()
         with:
-          title: "DockerHub Publish (1.23.6)"
+          title: "DockerHub Publish (1.23.7)"
           webhook: ${{ secrets.DISCORD_WEBHOOK_PACKAGE }}
   update_readme:
     needs: [push]
