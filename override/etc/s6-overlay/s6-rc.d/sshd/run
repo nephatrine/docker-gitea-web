@@ -1,14 +1,13 @@
 #!/command/with-contenv /bin/bash
-# SPDX-FileCopyrightText: 2022 - 2024 Daniel Wolf <nephatrine@gmail.com>
-#
+# SPDX-FileCopyrightText: 2019-2025 Daniel Wolf <nephatrine@gmail.com>
 # SPDX-License-Identifier: ISC
+
+# shellcheck shell=bash
 
 B_DSA=${B_DSA:-1024}
 B_RSA=${B_RSA:-4096}
 B_ECDSA=${B_ECDSA:-384}
 B_MODULI=${B_MODULI:-4096}
-
-# Build SSH Config
 
 if [[ ! -d /mnt/config/etc/ssh ]]; then
   /command/s6-setuidgid guardian /bin/mkdir -p /mnt/config/etc/ssh
@@ -17,8 +16,6 @@ if [[ ! -f /mnt/config/etc/ssh/sshd_config ]]; then
   /bin/cp /etc/ssh/sshd_config /mnt/config/etc/ssh/sshd_config
   /bin/chown guardian:users /mnt/config/etc/ssh/sshd_config
 fi
-
-# Create SSH Keys
 
 if /bin/grep -Ev '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/ssh_host_key'; then
   if [[ ! -f /mnt/config/etc/ssh/ssh_host_key ]]; then
@@ -87,17 +84,15 @@ if /bin/grep -Ev '^#' /mnt/config/etc/ssh/sshd_config | /bin/grep -q '/etc/ssh/s
 fi
 
 if [[ ! -f /mnt/config/etc/ssh/moduli ]]; then
-  /usr/bin/ssh-keygen -M generate -O bits="${B_MODULI}" /etc/ssh/moduli.candidates \
-  && /usr/bin/ssh-keygen -M screen -f /etc/ssh/moduli.candidates /etc/ssh/moduli.safe \
-  && /bin/mv /etc/ssh/moduli.safe /etc/ssh/moduli
+  /usr/bin/ssh-keygen -M generate -O bits="${B_MODULI}" /etc/ssh/moduli.candidates &&
+    /usr/bin/ssh-keygen -M screen -f /etc/ssh/moduli.candidates /etc/ssh/moduli.safe &&
+    /bin/mv /etc/ssh/moduli.safe /etc/ssh/moduli
   /bin/cp /etc/ssh/moduli /mnt/config/etc/ssh/moduli
   /bin/chown guardian:users /mnt/config/etc/ssh/moduli
   /bin/rm -f /etc/ssh/moduli.candidates
 fi
 /bin/cp /mnt/config/etc/ssh/moduli /etc/ssh/moduli
 /bin/chmod 644 /etc/ssh/moduli
-
-# Create Logging Driectory
 
 if [[ ! -d /mnt/config/log ]]; then
   /command/s6-setuidgid guardian /bin/mkdir -p /mnt/config/log
@@ -106,10 +101,8 @@ if [[ ! -f /mnt/config/log/sshd.log ]]; then
   /command/s6-setuidgid guardian /bin/touch /mnt/config/log/sshd.log
 fi
 
-# Start Service
-
 if ! /usr/bin/pgrep sshd >/dev/null; then
-  /usr/sbin/sshd -E /mnt/config/log/sshd.log -f /mnt/config/etc/ssh/sshd_config;
+  /usr/sbin/sshd -E /mnt/config/log/sshd.log -f /mnt/config/etc/ssh/sshd_config
   /bin/sleep 5
 fi
 

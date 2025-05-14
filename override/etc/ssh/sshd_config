@@ -1,6 +1,5 @@
-# SPDX-FileCopyrightText: 2019 - 2023 Daniel Wolf <nephatrine@gmail.com>
-#
-# SPDX-License-Identifier: ISC
+# SPDX-FileCopyrightText: 2019-2025 Daniel Wolf <nephatrine@gmail.com>
+# SPDX-License-Identifier: CC0-1.0
 
 PermitRootLogin no
 
@@ -23,6 +22,8 @@ Subsystem sftp internal-sftp
 
 AuthenticationMethods publickey
 AllowUsers            guardian
+
+AcceptEnv GIT_PROTOCOL
 
 # https://infosec.mozilla.org/guidelines/openssh
 # https://syslink.pl/cipherlist/

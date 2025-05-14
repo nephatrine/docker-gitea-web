@@ -1,13 +1,10 @@
 #!/bin/sh
-# SPDX-FileCopyrightText: 2022 - 2024 Daniel Wolf <nephatrine@gmail.com>
-#
+# SPDX-FileCopyrightText: 2019-2025 Daniel Wolf <nephatrine@gmail.com>
 # SPDX-License-Identifier: ISC
 
 export HOME=/mnt/config/home
 
 cd /mnt/config/home || exit 1
-
-# Copy Config
 
 if [ ! -d /mnt/config/etc ]; then
   /command/s6-setuidgid guardian /bin/mkdir -p /mnt/config/etc
@@ -19,16 +16,12 @@ if [ -d /mnt/config/etc ]; then
   /command/s6-setuidgid guardian /bin/cp /etc/gitea.ini.sample /mnt/config/etc/gitea.ini.sample
 fi
 
-# Ensure Git Hooks Executable
-
 if [ -d /mnt/config/data/git ]; then
   /usr/bin/find /mnt/config/data/git/ -name hooks -type d | /usr/bin/xargs -n1 -I[] /usr/bin/find [] -type f -exec /bin/chmod 0700 {} \;
 fi
 
-# Start Service
-
-if [[ -f /mnt/config/etc/gitea.ini ]]; then
-  GITEA_CUSTOM=/mnt/config/www/gitea USER=guardian exec /command/s6-setuidgid guardian /usr/bin/gitea web --config /mnt/config/etc/gitea.ini --pid /tmp/gitea.pid;
+if [ -f /mnt/config/etc/gitea.ini ]; then
+  GITEA_CUSTOM=/mnt/config/www/gitea USER=guardian exec /command/s6-setuidgid guardian /usr/bin/gitea web --config /mnt/config/etc/gitea.ini --pid /tmp/gitea.pid
 else
   /bin/echo "** no config exists **"
   /bin/sleep 300
