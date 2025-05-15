@@ -30,6 +30,7 @@ To use the built-in actions functions, you need one or more "runners", such as
 - [Skarnet S6](https://skarnet.org/software/s6/)
 - [s6-overlay](https://github.com/just-containers/s6-overlay)
 - [Gitea](https://about.gitea.com/)
+- [SQLite](https://sqlite.org/)
 
 ## Configuration
 
