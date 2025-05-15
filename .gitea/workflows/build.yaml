@@ -21,7 +21,7 @@ jobs:
           - runner: arm64
             platform: arm64/v8
             nephhub: arm64
-          - runner: armhf
+          - runner: arm64_32
             platform: arm/v7
             nephhub: arm32
           - runner: i386
