@@ -1,8 +1,9 @@
 # SPDX-FileCopyrightText: 2019-2025 Daniel Wolf <nephatrine@gmail.com>
 # SPDX-License-Identifier: ISC
 
-# hadolint global ignore=DL3007,DL3018
+# hadolint global ignore=DL3018
 
+# hadolint ignore=DL3007
 FROM code.nephatrine.net/nephnet/nxb-golang:latest AS builder
 
 ARG GITEA_VERSION=v1.23.8
@@ -12,6 +13,7 @@ WORKDIR /root/gitea
 ARG TAGS="bindata sqlite sqlite_unlock_notify"
 RUN make frontend && make backend
 
+# hadolint ignore=DL3007
 FROM code.nephatrine.net/nephnet/alpine-s6:latest
 LABEL maintainer="Daniel Wolf <nephatrine@gmail.com>"
 
