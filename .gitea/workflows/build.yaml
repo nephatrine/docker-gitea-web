@@ -84,9 +84,6 @@ jobs:
           - platform: arm/v7
             nephhub: arm32
             dockerhub: armv7
-          - platform: 386
-            nephhub: ia32
-            dockerhub: ia32
           - platform: riscv64
             nephhub: riscv64
             dockerhub: riscv64
