@@ -4,6 +4,10 @@
 
 export HOME=/mnt/config/home
 
+if [ ! -d /tmp/gitea ]; then
+  /command/s6-setuidgid guardian /bin/mkdir -p /tmp/gitea
+fi
+
 cd /mnt/config/home || exit 1
 
 if [ ! -d /mnt/config/etc ]; then
