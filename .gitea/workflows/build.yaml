@@ -61,7 +61,7 @@ jobs:
           pull: true
           push: true
           file: Dockerfile
-          tags: code.nephatrine.net/nephnet/gitea-web:1.24.2-${{matrix.nephhub}}
+          tags: code.nephatrine.net/nephnet/gitea-web:1.24.5-${{matrix.nephhub}}
           cache-from: type=registry,ref=code.nephatrine.net/nephhub/${{matrix.nephhub}}-cache:gitea-web
           cache-to: type=registry,image-manifest=true,oci-mediatypes=true,ref=code.nephatrine.net/nephhub/${{matrix.nephhub}}-cache:gitea-web,mode=max
       - name: Notify Discord
@@ -108,9 +108,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASS }}
       - name: Tag & Push
         run: |
-          docker pull code.nephatrine.net/nephnet/gitea-web:1.24.2-${{matrix.nephhub}} --platform linux/${{matrix.platform}}
-          docker tag code.nephatrine.net/nephnet/gitea-web:1.24.2-${{matrix.nephhub}} nephatrine/${{matrix.dockerhub}}:gitea-web
-          docker rmi code.nephatrine.net/nephnet/gitea-web:1.24.2-${{matrix.nephhub}}
+          docker pull code.nephatrine.net/nephnet/gitea-web:1.24.5-${{matrix.nephhub}} --platform linux/${{matrix.platform}}
+          docker tag code.nephatrine.net/nephnet/gitea-web:1.24.5-${{matrix.nephhub}} nephatrine/${{matrix.dockerhub}}:gitea-web
+          docker rmi code.nephatrine.net/nephnet/gitea-web:1.24.5-${{matrix.nephhub}}
           docker push nephatrine/${{matrix.dockerhub}}:gitea-web
           docker rmi nephatrine/${{matrix.dockerhub}}:gitea-web
       - name: Clean Up
@@ -149,16 +149,16 @@ jobs:
         continue-on-error: true
         id: manifest
         run: |
-          export IMAGELIST="--amend code.nephatrine.net/nephnet/gitea-web:1.24.2-amd64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-arm64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-arm32 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-riscv64"
-          for manifestName in 1.24.2 1.24 1 latest; do docker manifest rm code.nephatrine.net/nephnet/gitea-web:${manifestName} || true; docker manifest create code.nephatrine.net/nephnet/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:${manifestName}; done
+          export IMAGELIST="--amend code.nephatrine.net/nephnet/gitea-web:1.24.5-amd64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.5-arm64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.5-arm32 --amend code.nephatrine.net/nephnet/gitea-web:1.24.5-riscv64"
+          for manifestName in 1.24.5 1.24 1 latest; do docker manifest rm code.nephatrine.net/nephnet/gitea-web:${manifestName} || true; docker manifest create code.nephatrine.net/nephnet/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:${manifestName}; done
       - name: Wait to Retry
         if: steps.manifest.outcome != 'success'
         run: sleep 60
       - name: Retry Docker Manifest
         if: steps.manifest.outcome != 'success'
         run: |
-          export IMAGELIST="--amend code.nephatrine.net/nephnet/gitea-web:1.24.2-amd64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-arm64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-arm32 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-riscv64"
-          for manifestName in 1.24.2 1.24 1 latest; do docker manifest rm code.nephatrine.net/nephnet/gitea-web:${manifestName} || true; docker manifest create code.nephatrine.net/nephnet/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:${manifestName}; done
+          export IMAGELIST="--amend code.nephatrine.net/nephnet/gitea-web:1.24.5-amd64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.5-arm64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.5-arm32 --amend code.nephatrine.net/nephnet/gitea-web:1.24.5-riscv64"
+          for manifestName in 1.24.5 1.24 1 latest; do docker manifest rm code.nephatrine.net/nephnet/gitea-web:${manifestName} || true; docker manifest create code.nephatrine.net/nephnet/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:${manifestName}; done
       - name: Notify Discord
         uses: https://code.nephatrine.net/NephHub/actions-status-discord@v1
         if: failure()
@@ -191,7 +191,7 @@ jobs:
         id: manifest
         run: |
           export IMAGELIST="--amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web --amend nephatrine/armv7:gitea-web --amend nephatrine/riscv64:gitea-web"
-          for manifestName in 1.24.2 1.24 1 latest; do docker manifest rm nephatrine/gitea-web:${manifestName} || true; docker manifest create nephatrine/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge nephatrine/gitea-web:${manifestName}; done
+          for manifestName in 1.24.5 1.24 1 latest; do docker manifest rm nephatrine/gitea-web:${manifestName} || true; docker manifest create nephatrine/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge nephatrine/gitea-web:${manifestName}; done
       - name: Wait to Retry
         if: steps.manifest.outcome != 'success'
         run: sleep 60
@@ -199,7 +199,7 @@ jobs:
         if: steps.manifest.outcome != 'success'
         run: |
           export IMAGELIST="--amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web --amend nephatrine/armv7:gitea-web --amend nephatrine/riscv64:gitea-web"
-          for manifestName in 1.24.2 1.24 1 latest; do docker manifest rm nephatrine/gitea-web:${manifestName} || true; docker manifest create nephatrine/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge nephatrine/gitea-web:${manifestName}; done
+          for manifestName in 1.24.5 1.24 1 latest; do docker manifest rm nephatrine/gitea-web:${manifestName} || true; docker manifest create nephatrine/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge nephatrine/gitea-web:${manifestName}; done
       - name: Notify Discord
         uses: https://code.nephatrine.net/NephHub/actions-status-discord@v1
         if: failure()
