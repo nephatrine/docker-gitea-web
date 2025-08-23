@@ -24,9 +24,6 @@ jobs:
           - runner: arm64_32
             platform: arm/v7
             nephhub: arm32
-          - runner: i386
-            platform: 386
-            nephhub: ia32
           - runner: riscv64
             platform: riscv64
             nephhub: riscv64
@@ -155,7 +152,7 @@ jobs:
         continue-on-error: true
         id: manifest
         run: |
-          export IMAGELIST="--amend code.nephatrine.net/nephnet/gitea-web:1.24.2-amd64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-ia32 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-arm64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-arm32 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-riscv64"
+          export IMAGELIST="--amend code.nephatrine.net/nephnet/gitea-web:1.24.2-amd64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-arm64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-arm32 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-riscv64"
           for manifestName in 1.24.2 1.24 1 latest; do docker manifest rm code.nephatrine.net/nephnet/gitea-web:${manifestName} || true; docker manifest create code.nephatrine.net/nephnet/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:${manifestName}; done
       - name: Wait to Retry
         if: steps.manifest.outcome != 'success'
@@ -163,7 +160,7 @@ jobs:
       - name: Retry Docker Manifest
         if: steps.manifest.outcome != 'success'
         run: |
-          export IMAGELIST="--amend code.nephatrine.net/nephnet/gitea-web:1.24.2-amd64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-ia32 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-arm64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-arm32 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-riscv64"
+          export IMAGELIST="--amend code.nephatrine.net/nephnet/gitea-web:1.24.2-amd64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-arm64 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-arm32 --amend code.nephatrine.net/nephnet/gitea-web:1.24.2-riscv64"
           for manifestName in 1.24.2 1.24 1 latest; do docker manifest rm code.nephatrine.net/nephnet/gitea-web:${manifestName} || true; docker manifest create code.nephatrine.net/nephnet/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge code.nephatrine.net/nephnet/gitea-web:${manifestName}; done
       - name: Notify Discord
         uses: https://code.nephatrine.net/NephHub/actions-status-discord@v1
@@ -196,7 +193,7 @@ jobs:
         continue-on-error: true
         id: manifest
         run: |
-          export IMAGELIST="--amend nephatrine/amd64:gitea-web --amend nephatrine/ia32:gitea-web --amend nephatrine/arm64:gitea-web --amend nephatrine/armv7:gitea-web --amend nephatrine/riscv64:gitea-web"
+          export IMAGELIST="--amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web --amend nephatrine/armv7:gitea-web --amend nephatrine/riscv64:gitea-web"
           for manifestName in 1.24.2 1.24 1 latest; do docker manifest rm nephatrine/gitea-web:${manifestName} || true; docker manifest create nephatrine/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge nephatrine/gitea-web:${manifestName}; done
       - name: Wait to Retry
         if: steps.manifest.outcome != 'success'
@@ -204,7 +201,7 @@ jobs:
       - name: Retry Docker Manifest
         if: steps.manifest.outcome != 'success'
         run: |
-          export IMAGELIST="--amend nephatrine/amd64:gitea-web --amend nephatrine/ia32:gitea-web --amend nephatrine/arm64:gitea-web --amend nephatrine/armv7:gitea-web --amend nephatrine/riscv64:gitea-web"
+          export IMAGELIST="--amend nephatrine/amd64:gitea-web --amend nephatrine/arm64:gitea-web --amend nephatrine/armv7:gitea-web --amend nephatrine/riscv64:gitea-web"
           for manifestName in 1.24.2 1.24 1 latest; do docker manifest rm nephatrine/gitea-web:${manifestName} || true; docker manifest create nephatrine/gitea-web:${manifestName} ${IMAGELIST}; docker manifest push --purge nephatrine/gitea-web:${manifestName}; done
       - name: Notify Discord
         uses: https://code.nephatrine.net/NephHub/actions-status-discord@v1
