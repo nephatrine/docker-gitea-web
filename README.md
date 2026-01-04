@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2019-2025 Daniel Wolf <nephatrine@gmail.com>
+SPDX-FileCopyrightText: 2019-2026 Daniel Wolf <nephatrine@gmail.com>
 SPDX-License-Identifier: ISC
 -->
 
@@ -22,7 +22,7 @@ To use the built-in actions functions, you need one or more "runners", such as
 
 ## Supported Tags
 
-- `gitea-web:1.24.6`: Gitea 1.24.6
+- `gitea-web:1.24.7`: Gitea 1.24.7
 
 ## Software
 
