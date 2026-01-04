@@ -6,7 +6,9 @@
 # hadolint ignore=DL3007
 FROM code.nephatrine.net/nephnet/nxb-golang:latest AS builder
 
-ARG GITEA_VERSION=v1.24.7
+RUN npm i -g pnpm
+
+ARG GITEA_VERSION=v1.25.3
 RUN git -C /root clone -b "$GITEA_VERSION" --single-branch --depth=1 https://github.com/go-gitea/gitea.git
 WORKDIR /root/gitea
 
