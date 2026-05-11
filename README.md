@@ -23,7 +23,7 @@ To use the built-in actions functions, you need one or more "runners", such as
 
 ## Supported Tags
 
-- `gitea-web:1.25.5`: Gitea 1.25.5
+- `gitea-web:1.26.1`: Gitea 1.26.1
 
 ## Software
 
